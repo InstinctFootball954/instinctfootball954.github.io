@@ -203,13 +203,13 @@ section { padding-block: clamp(72px, 10vw, 128px); }
 .film-price small { font-family: var(--body); font-size: 1rem; color: var(--gray); margin-left: 6px; }
 .film-visual { position: relative; padding-bottom: 72px; min-width: 0; }
 .film-visual .photo { aspect-ratio: 3 / 2; }
-.clip { position: absolute; left: -32px; right: 40px; bottom: 0; background: var(--anvil-raise); border-left: 3px solid var(--speed-lite); padding: 16px 20px; display: grid; gap: 4px; box-shadow: 0 18px 40px rgba(0,0,0,0.35); border-radius: 0 6px 6px 0; }
+.clip { z-index: 1; position: absolute; left: -32px; right: 40px; bottom: 0; background: var(--anvil-raise); border-left: 3px solid var(--speed-lite); padding: 16px 20px; display: grid; gap: 4px; box-shadow: 0 18px 40px rgba(0,0,0,0.35); border-radius: 0 6px 6px 0; }
 .clip .tip-head { font-family: var(--label); font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.82rem; color: var(--gray); }
 .clip b { font-family: var(--label); font-variant-numeric: tabular-nums; color: var(--speed-lite); letter-spacing: 0.06em; }
 @media (max-width: 860px) {
   .film .wrap { grid-template-columns: minmax(0, 1fr); gap: 48px; }
   .film-visual { padding-bottom: 0; }
-  .clip { position: static; margin-top: -24px; margin-left: 16px; margin-right: 16px; }
+  .clip { position: relative; z-index: 1; margin-top: -28px; margin-left: 16px; margin-right: 0; }
 }
 
 /* Videos */
