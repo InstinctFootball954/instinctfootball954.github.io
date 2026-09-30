@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Instinct Football 954</title>
+<meta name="description" content="Position training for WR, QB, RB, DB, LB and kickers in Broward and Palm Beach. 1-on-1 sessions, small groups, and monthly film review.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg transform='rotate(28 32 32)'%3E%3Cpath d='M32 3 Q63 32 32 61 Q1 32 32 3Z' fill='%23002C5F' stroke='%237FAAE0' stroke-width='3'/%3E%3Cpath d='M32 17V47M25 17H39M28 25H36M28 32H36M28 39H36M25 47H39' stroke='%23fff' stroke-width='3.5' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600&display=swap">
+<style>
+/* Layout: editorial, photo-led. Full-bleed photo hero with centered type, then alternating text and image sections on Anvil Black with generous space. Speed Blue fills buttons and the closing band; a lighter tint carries text accents. */
+:root {
+  --anvil: #1D252C;          /* page background */
+  --anvil-deep: #151B20;     /* alternate sections, footer */
+  --anvil-raise: #252F37;    /* raised surfaces */
+  --rule: #34404A;           /* divider lines */
+  --white: #FFFFFF;
+  --gray: #A5ACAF;           /* Facemask Gray: secondary text */
+  --speed: #002C5F;          /* Speed Blue: fills */
+  --speed-hover: #013B7C;
+  --speed-lite: #7FAAE0;     /* Speed Blue tint: text accents on dark */
+  --display: "Alfa Slab One", Rockwell, "Roboto Slab", Georgia, serif;
+  --body: "Barlow", "Segoe UI", Helvetica, Arial, sans-serif;
+  --label: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --wrap: 1180px;
+  --head-h: 68px;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--head-h); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { font-synthesis-weight: none; margin: 0; background: var(--anvil); color: var(--white); font-family: var(--body); font-size: 17px; line-height: 1.65; }
+a { color: var(--speed-lite); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--speed-lite); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.1; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(2rem, 4vw, 3rem); }
+h3 { font-size: 1.3rem; }
+p { margin: 0; }
+img { max-width: 100%; display: block; }
+.wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: 24px; }
+.lede { color: var(--gray); max-width: 60ch; font-size: 1.12rem; }
+section { padding-block: clamp(72px, 10vw, 128px); }
+
+/* Scroll-in motion: content is always visible; it just settles into place */
+.rise { transition: transform 0.9s cubic-bezier(.2,.7,.2,1), opacity 0.9s ease; }
+.rise.pending { transform: translateY(28px); opacity: 0.35; }
+@media (prefers-reduced-motion: reduce) { .rise, .rise.pending { transition: none; transform: none; opacity: 1; } }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--label); font-weight: 600; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; padding: 15px 30px; border-radius: 999px; border: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: background 0.2s, border-color 0.2s, color 0.2s; }
+.btn-primary { background: var(--speed); color: var(--white); border-color: rgba(127,170,224,0.55); }
+.btn-primary:hover { background: var(--speed-hover); border-color: var(--speed-lite); }
+.btn-outline { border-color: rgba(255,255,255,0.7); color: var(--white); background: transparent; }
+.btn-outline:hover { background: var(--white); color: var(--anvil); }
+.btn-light { background: var(--white); color: var(--speed); }
+.btn-light:hover { background: #E6EDF6; }
+
+/* Header: transparent over the photo, solid once you scroll */
+.topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 30; padding-top: env(safe-area-inset-top, 0px); transition: background 0.3s, border-color 0.3s; border-bottom: 1px solid transparent; }
+.topbar.solid { background: rgba(21,27,32,0.96); border-color: var(--rule); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--head-h); }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--white); }
+.brand svg { width: 38px; height: 38px; flex: none; }
+.brand-text { display: grid; line-height: 1; gap: 3px; }
+.brand-text b { font-family: var(--display); font-weight: 400; font-size: 1.3rem; letter-spacing: 0.03em; }
+.brand-text span { font-family: var(--label); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.32em; color: var(--speed-lite); }
+.nav { display: flex; gap: 28px; align-items: center; }
+.nav a { color: var(--white); text-decoration: none; font-weight: 500; font-size: 1rem; opacity: 0.88; }
+.nav a:hover { opacity: 1; }
+.nav .btn { padding: 9px 20px; font-size: 0.95rem; opacity: 1; }
+@media (max-width: 880px) { .nav a:not(.btn) { display: none; } }
+
+/* Hero */
+.hero { position: relative; min-height: min(92vh, 860px); display: grid; place-items: center; text-align: center; padding: calc(var(--head-h) + 48px) 24px 72px; overflow: hidden; isolation: isolate; }
+.hero-img { position: absolute; inset: 0; z-index: -2; }
+.hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; transform: scale(1.06); animation: settle 2.4s cubic-bezier(.2,.7,.2,1) forwards; }
+@keyframes settle { to { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .hero-img img { animation: none; transform: none; } }
+.hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(21,27,32,0.75) 0%, rgba(21,27,32,0.45) 45%, rgba(29,37,44,0.92) 100%); }
+.hero-copy { display: grid; gap: 22px; justify-items: center; max-width: 820px; }
+.hero .eyebrow { font-family: var(--label); font-weight: 600; text-transform: uppercase; letter-spacing: 0.22em; font-size: 0.92rem; color: var(--white); opacity: 0.9; }
+.hero h1 { font-size: clamp(2.6rem, 7vw, 5.4rem); line-height: 1.02; }
+.hero h1 em { font-style: normal; color: var(--speed-lite); }
+.hero p { font-size: clamp(1.1rem, 1.6vw, 1.25rem); max-width: 40em; color: rgba(255,255,255,0.9); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 8px; }
+.positions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; font-family: var(--label); font-weight: 600; letter-spacing: 0.18em; font-size: 0.95rem; color: rgba(255,255,255,0.8); }
+.positions span + span::before { content: "/"; margin-right: 10px; color: var(--speed-lite); }
+
+/* Method */
+.method-top { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 64px; align-items: center; margin-bottom: 80px; }
+.method-quote { font-family: var(--display); font-size: clamp(1.7rem, 3.2vw, 2.5rem); line-height: 1.25; text-wrap: balance; }
+.method-by { color: var(--gray); margin-top: 18px; display: block; }
+.tree { margin: 0; width: 100%; max-width: 420px; justify-self: center; }
+.tree svg { width: 100%; height: auto; display: block; }
+.tree figcaption { font-family: var(--label); font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray); text-align: center; margin-top: 8px; }
+.route { fill: none; stroke: var(--white); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; opacity: 0.45; }
+.route-hot { fill: none; stroke: var(--speed-lite); stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 14 9; animation: run 1.4s linear infinite; }
+@keyframes run { to { stroke-dashoffset: -23; } }
+@media (prefers-reduced-motion: reduce) { .route-hot { animation: none; stroke-dasharray: none; } }
+.rnum { font-family: var(--label); font-weight: 600; font-size: 15px; fill: var(--gray); }
+.rnum-hot { fill: var(--speed-lite); }
+.pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
+.pillar { display: grid; gap: 12px; align-content: start; padding-top: 24px; border-top: 1px solid var(--rule); min-width: 0; }
+.pillar h3 { font-size: clamp(1.8rem, 2.6vw, 2.2rem); color: var(--speed-lite); }
+.pillar p { color: var(--gray); }
+@media (max-width: 860px) {
+  .method-top { grid-template-columns: minmax(0, 1fr); gap: 40px; margin-bottom: 56px; }
+  .tree { max-width: 320px; }
+  .pillars { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+}
+
+/* Sessions */
+.sessions-sec { background: var(--anvil-deep); }
+.sec-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: end; margin-bottom: 56px; }
+@media (max-width: 860px) { .sec-head { grid-template-columns: minmax(0, 1fr); gap: 16px; } }
+.steps { list-style: none; margin: 0 0 64px; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); counter-reset: step; }
+.steps li { counter-increment: step; padding: 0 16px; display: grid; gap: 6px; align-content: start; justify-items: center; text-align: center; min-width: 0; border-left: 1px solid var(--rule); }
+.steps li:first-child { border-left: 0; }
+.steps li::before { content: counter(step); font-family: var(--display); font-size: 2.2rem; line-height: 1; color: var(--speed-lite); margin-bottom: 4px; }
+.steps strong { font-size: 1.12rem; font-weight: 600; }
+.steps span { color: var(--gray); font-size: 0.98rem; }
+@media (max-width: 820px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; } .steps li:nth-child(3) { border-left: 0; } }
+@media (max-width: 460px) { .steps { grid-template-columns: minmax(0, 1fr); } .steps li { border-left: 0; } }
+.menu { border-top: 1px solid var(--rule); }
+.item { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.3fr) auto 180px; gap: 32px; align-items: center; padding-block: 34px; border-bottom: 1px solid var(--rule); }
+.item-name { display: grid; gap: 6px; min-width: 0; }
+.item-name h3 { font-size: 1.6rem; }
+.item-name p { color: var(--gray); font-size: 0.98rem; }
+.item-facts { margin: 0; display: grid; gap: 6px; min-width: 0; }
+.item-facts div { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 10px; font-size: 0.98rem; }
+.item-facts dt { color: var(--gray); }
+.item-facts dd { margin: 0; }
+.item-price { font-family: var(--display); font-size: 2.8rem; line-height: 1; font-variant-numeric: tabular-nums; text-align: right; }
+.item-price small { display: block; font-family: var(--body); font-size: 0.9rem; color: var(--gray); margin-top: 6px; }
+.item .btn { padding: 12px 20px; }
+@media (max-width: 900px) {
+  .item { grid-template-columns: minmax(0, 1fr) auto; gap: 16px 20px; }
+  .item-facts { grid-column: 1 / -1; grid-row: 2; }
+  .item-price { grid-column: 2; grid-row: 1; }
+  .item .btn { grid-column: 1 / -1; justify-self: start; }
+}
+.policy-line { margin-top: 28px; color: var(--gray); font-size: 0.98rem; }
+.policy-line a { font-weight: 600; }
+.notice { margin-top: 16px; padding: 14px 18px; border-radius: 10px; background: var(--speed); color: var(--white); font-weight: 500; }
+
+/* Photos */
+.photo { margin: 0; position: relative; overflow: hidden; background: var(--anvil-raise); border-radius: 4px; }
+.photo img { width: 100%; height: 100%; object-fit: cover; }
+.photo img:not([src]) { display: none; }
+.slot { position: absolute; inset: 0; display: grid; place-content: center; gap: 6px; text-align: center; padding: 16px; border: 2px dashed var(--rule); color: var(--gray); font-size: 0.92rem; }
+.slot b { color: var(--white); font-weight: 600; }
+.slot code { font-family: var(--label); letter-spacing: 0.04em; color: var(--speed-lite); }
+
+/* Film review */
+.film .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; align-items: center; }
+.film-copy { display: grid; gap: 20px; }
+.film-list { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 10px; }
+.film-list li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; }
+.film-list li::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--speed); border: 2px solid var(--speed-lite); margin-top: 8px; }
+.film-buy { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 8px; }
+.film-price { font-family: var(--display); font-size: 2.6rem; line-height: 1; }
+.film-price small { font-family: var(--body); font-size: 1rem; color: var(--gray); margin-left: 6px; }
+.film-visual { position: relative; padding-bottom: 72px; min-width: 0; }
+.film-visual .photo { aspect-ratio: 3 / 2; }
+.clip { position: absolute; left: -32px; right: 40px; bottom: 0; background: var(--anvil-raise); border-left: 3px solid var(--speed-lite); padding: 16px 20px; display: grid; gap: 4px; box-shadow: 0 18px 40px rgba(0,0,0,0.35); border-radius: 0 6px 6px 0; }
+.clip .tip-head { font-family: var(--label); font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.82rem; color: var(--gray); }
+.clip b { font-family: var(--label); font-variant-numeric: tabular-nums; color: var(--speed-lite); letter-spacing: 0.06em; }
+@media (max-width: 860px) {
+  .film .wrap { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+  .film-visual { padding-bottom: 0; }
+  .clip { position: static; margin-top: -24px; margin-left: 16px; margin-right: 16px; }
+}
+
+/* Videos */
+.video-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.video { display: grid; gap: 10px; min-width: 0; }
+.frame { aspect-ratio: 16 / 9; max-width: 100%; border-radius: 4px; overflow: hidden; background: var(--anvil-raise); }
+.frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+.video-meta { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.video-meta strong { font-weight: 600; }
+.video-meta span { color: var(--gray); font-size: 0.9rem; white-space: nowrap; }
+.tabs { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+.tabs button { font-family: var(--body); font-weight: 600; font-size: 0.98rem; padding: 8px 18px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--white); cursor: pointer; }
+.tabs button[aria-selected="true"] { background: var(--speed); border-color: var(--speed-lite); }
+.tabs button[hidden] { display: none; }
+@media (max-width: 900px) { .video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .video-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* About (split, Meriden-style) */
+.about { background: var(--anvil-deep); }
+.about .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 80px; align-items: center; }
+.about-visual { position: relative; padding: 0 0 64px 0; min-width: 0; }
+.about-visual .main { aspect-ratio: 2 / 3; max-height: 720px; }
+.about-visual .inset { position: absolute; right: -28px; bottom: 0; width: 42%; aspect-ratio: 3 / 4; border: 6px solid var(--anvil-deep); }
+.inset-cap { position: absolute; left: 12px; bottom: 10px; z-index: 1; font-family: var(--label); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; background: rgba(21,27,32,0.8); padding: 3px 8px; border-radius: 3px; }
+.about-copy { display: grid; gap: 20px; }
+.about-copy p { color: var(--gray); font-size: 1.08rem; max-width: 58ch; }
+.about-copy p.big { color: var(--white); font-size: clamp(1.2rem, 1.8vw, 1.4rem); line-height: 1.5; }
+.creds { list-style: none; margin: 8px 0 0; padding: 20px 0 0; border-top: 1px solid var(--rule); display: grid; gap: 10px; }
+.creds li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 6px; align-items: baseline; }
+.creds li::before { content: ""; width: 16px; height: 3px; background: var(--speed-lite); transform: translateY(-4px); }
+.about.no-photo .wrap { grid-template-columns: minmax(0, 1fr); max-width: 820px; }
+@media (max-width: 860px) {
+  .about .wrap { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+  .about-visual { max-width: 460px; }
+  .about-visual .inset { right: -8px; }
+}
+
+/* Fields */
+.fields-wrap { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 64px; align-items: start; }
+.fields-wrap .head { display: grid; gap: 14px; }
+.field-list { border-top: 1px solid var(--rule); }
+.field { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 16px; padding: 20px 0; border-bottom: 1px solid var(--rule); align-items: center; }
+.field strong { font-weight: 600; font-size: 1.1rem; }
+.field .city { grid-column: 1; color: var(--gray); font-size: 0.95rem; }
+.status { grid-row: 1 / span 2; grid-column: 2; font-weight: 600; font-size: 0.85rem; padding: 4px 12px; border-radius: 999px; white-space: nowrap; }
+.status.ok { background: var(--speed); color: var(--white); border: 1px solid var(--speed-lite); }
+.status.wait { border: 1px solid var(--rule); color: var(--gray); }
+@media (max-width: 860px) { .fields-wrap { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
+
+/* Policies */
+.policies-sec { padding-top: 0; }
+.policies-sec .head { display: grid; gap: 14px; margin-bottom: 40px; }
+.pol { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 24px; padding-block: 28px; border-top: 1px solid var(--rule); }
+.pol:last-child { border-bottom: 1px solid var(--rule); }
+.pol ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; color: var(--gray); }
+.pol li::marker { color: var(--speed-lite); }
+.rules { display: grid; gap: 8px; }
+.rule { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 14px; color: var(--gray); }
+.rule .when { color: var(--white); font-weight: 600; }
+@media (max-width: 760px) { .pol { grid-template-columns: minmax(0, 1fr); gap: 12px; } }
+
+/* FAQ */
+.faq { background: var(--anvil-deep); }
+.faq .wrap { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 64px; }
+details { border-bottom: 1px solid var(--rule); padding-block: 18px; }
+details:first-of-type { border-top: 1px solid var(--rule); }
+summary { cursor: pointer; font-weight: 600; font-size: 1.1rem; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font-family: var(--display); font-size: 1.4rem; line-height: 1; color: var(--speed-lite); }
+details[open] summary::after { content: "\2212"; }
+details p { margin-top: 10px; color: var(--gray); max-width: 62ch; }
+@media (max-width: 860px) { .faq .wrap { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
+
+/* Closing band (Sackett-style centered CTA) */
+.cta { background: var(--speed); text-align: center; }
+.cta .wrap { display: grid; justify-items: center; gap: 22px; max-width: 760px; }
+.cta p { color: rgba(255,255,255,0.85); font-size: 1.12rem; }
+.contact-lines { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 28px; margin-top: 6px; }
+.copyline { display: flex; align-items: center; gap: 10px; }
+.copyline code { font-family: var(--body); font-size: 1.05rem; user-select: all; overflow-wrap: anywhere; }
+.copyline button { font-family: var(--body); font-weight: 600; font-size: 0.8rem; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.45); background: transparent; color: var(--white); cursor: pointer; }
+footer { background: var(--anvil-deep); color: var(--gray); font-size: 0.9rem; padding-block: 26px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Instinct Football 954, home">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <g transform="rotate(28 32 32)">
+          <path d="M32 3 Q63 32 32 61 Q1 32 32 3Z" fill="#002C5F" stroke="#7FAAE0" stroke-width="3"/>
+          <path d="M32 17V47M25 17H39M28 25H36M28 32H36M28 39H36M25 47H39" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        </g>
+      </svg>
+      <span class="brand-text"><b>INSTINCT</b><span>FOOTBALL 954</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#method">Method</a>
+      <a href="#sessions">Sessions</a>
+      <a href="#film">Film Review</a>
+      <a href="#about">About</a>
+      <a href="#policies">Policies</a>
+      <a class="btn btn-primary" href="#sessions" data-book>Book</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-title">
+    <figure class="hero-img photo" data-photo="hero" style="position:absolute;border-radius:0"><img alt=""><span class="slot"><b>Photo slot</b>Hero, wide<code>images/hero.jpg</code></span></figure>
+    <div class="hero-copy">
+      <span class="eyebrow">Broward &amp; Palm Beach position training</span>
+      <h1 id="hero-title">Prepare until it's <em>instinct.</em></h1>
+      <p>Training from a former college receiver and current high school coach. Learn to read the play before it happens, then react without thinking twice.</p>
+      <div class="positions" aria-label="Positions trained"><span>WR</span><span>QB</span><span>RB</span><span>DB</span><span>LB</span><span>K</span></div>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#sessions" data-book>Book a session</a>
+        <a class="btn btn-outline" href="#method">The method</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="method" aria-labelledby="method-title">
+    <div class="wrap">
+      <div class="method-top rise">
+        <div>
+          <h2 id="method-title" class="method-quote">“Football is preparation, anticipation, and action. Put all three together and you have instincts.”</h2>
+          <span class="method-by">Coach Travis, on the name Instinct</span>
+        </div>
+        <figure class="tree">
+          <svg viewBox="0 0 400 300" role="img" aria-label="Wide receiver route tree, with the 8 post route highlighted">
+            <defs>
+              <marker id="ah" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#FFFFFF" opacity="0.6"/></marker>
+              <marker id="ahHot" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#7FAAE0"/></marker>
+            </defs>
+            <line x1="20" y1="282" x2="380" y2="282" stroke="#A5ACAF" stroke-opacity="0.5" stroke-width="2" stroke-dasharray="4 6"/>
+            <path class="route" marker-end="url(#ah)" d="M200 270 L205 246 L300 246"/>
+            <path class="route" marker-end="url(#ah)" d="M200 270 L200 238 L128 180"/>
+            <path class="route" marker-end="url(#ah)" d="M200 270 L200 112 L238 134"/>
+            <path class="route" marker-end="url(#ah)" d="M200 270 L200 124 L176 146"/>
+            <path class="route" marker-end="url(#ah)" d="M200 270 L200 172 L306 172"/>
+            <path class="route" marker-end="url(#ah)" d="M200 270 L200 152 L84 152"/>
+            <path class="route" marker-end="url(#ah)" d="M200 270 L200 132 L296 58"/>
+            <path class="route" marker-end="url(#ah)" d="M200 270 L200 26"/>
+            <path class="route-hot" marker-end="url(#ahHot)" d="M200 270 L200 132 L112 48"/>
+            <circle cx="200" cy="270" r="9" fill="#002C5F" stroke="#7FAAE0" stroke-width="3"/>
+            <text class="rnum" x="310" y="251">1</text>
+            <text class="rnum" x="112" y="178">2</text>
+            <text class="rnum" x="244" y="146">3</text>
+            <text class="rnum" x="160" y="152">4</text>
+            <text class="rnum" x="314" y="177">5</text>
+            <text class="rnum" x="66" y="157">6</text>
+            <text class="rnum" x="302" y="54">7</text>
+            <text class="rnum rnum-hot" x="94" y="46">8</text>
+            <text class="rnum" x="207" y="24">9</text>
+          </svg>
+          <figcaption>The route tree</figcaption>
+        </figure>
+      </div>
+      <div class="pillars">
+        <div class="pillar rise">
+          <h3>Prepare</h3>
+          <p>Instincts only get better when the preparation is right. Footwork, film, and a plan for every rep, before you ever line up.</p>
+        </div>
+        <div class="pillar rise">
+          <h3>Anticipate</h3>
+          <p>Read the alignment before the snap and the movement after it. Know where the defense should be before it gets there.</p>
+        </div>
+        <div class="pillar rise">
+          <h3>Act</h3>
+          <p>When you already know what's coming, you play fast. Clean, efficient movement with no wasted steps and no second-guessing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sessions-sec" id="sessions" aria-labelledby="sessions-title">
+    <div class="wrap">
+      <div class="sec-head rise">
+        <h2 id="sessions-title">Sessions and pricing</h2>
+        <p class="lede">Every session is 60 minutes and paid in full when you book. Groups are split by position so every athlete gets real reps.</p>
+      </div>
+      <ol class="steps rise" aria-label="How booking works">
+        <li><strong>Choose</strong><span>Pick the session, time, and field that works best for you.</span></li>
+        <li><strong>Sign</strong><span>A parent or guardian signs the waiver and agrees to the <a href="#policies">policies</a> for athletes under 18.</span></li>
+        <li><strong>Pay</strong><span>Pay in full online. Cards, Apple Pay, and Google Pay accepted.</span></li>
+        <li><strong>Train</strong><span>Please arrive 10 minutes prior to the session start with water.</span></li>
+      </ol>
+      <div class="menu">
+        <article class="item rise">
+          <div class="item-name"><h3>1-on-1</h3><p>Fixing, improving, and perfecting technique and instinctual performance.</p></div>
+          <dl class="item-facts">
+            <div><dt>Length</dt><dd>60 minutes</dd></div>
+            <div><dt>Positions</dt><dd>WR, QB, RB, DB, LB, K</dd></div>
+          </dl>
+          <div class="item-price">$50<small>per session</small></div>
+          <a class="btn btn-primary" href="#sessions" data-book="one">Book 1-on-1</a>
+        </article>
+        <article class="item rise">
+          <div class="item-name"><h3>Small group</h3><p>Competitive reps against other athletes at your position.</p></div>
+          <dl class="item-facts">
+            <div><dt>Length</dt><dd>60 minutes</dd></div>
+            <div><dt>Group size</dt><dd>3 to 8 athletes</dd></div>
+            <div><dt>Groups</dt><dd>Skill positions (WR, QB, RB, DB, LB) or kickers</dd></div>
+          </dl>
+          <div class="item-price">$30<small>per athlete</small></div>
+          <a class="btn btn-primary" href="#sessions" data-book="group">Book a spot</a>
+        </article>
+        <article class="item rise">
+          <div class="item-name"><h3>Film review</h3><p>Your clips, broken down by a coach, every month.</p></div>
+          <dl class="item-facts">
+            <div><dt>Includes</dt><dd>2 breakdowns per month</dd></div>
+            <div><dt>Commitment</dt><dd>None. Cancel anytime.</dd></div>
+          </dl>
+          <div class="item-price">$35<small>per month</small></div>
+          <a class="btn btn-outline" href="#film">How it works</a>
+        </article>
+      </div>
+      <p class="policy-line">Cancel 1 hour or more before your session for a full refund or free reschedule. Later cancellations and no-shows are not refunded. <a href="#policies">Read all policies before booking.</a></p>
+      <p class="notice" id="booking-notice" hidden>Online booking opens soon. Reach out using the contact info at the bottom of this page to reserve a spot.</p>
+    </div>
+  </section>
+
+  <section class="film" id="film" aria-labelledby="film-title">
+    <div class="wrap">
+      <div class="film-copy rise">
+        <h2 id="film-title">Film review</h2>
+        <p class="lede">Send your game or practice clips and get them broken down by a coach. See what you did well, what cost you the rep, and exactly what to fix before Friday.</p>
+        <ul class="film-list">
+          <li>2 breakdowns per month</li>
+          <li>Send clips as a Hudl, YouTube, or Google Drive link</li>
+          <li>Timestamped notes on technique, reads, and effort</li>
+          <li>Returned within 5 days</li>
+          <li>Cancel anytime, no contract</li>
+        </ul>
+        <div class="film-buy">
+          <div class="film-price">$35<small>per month</small></div>
+          <a class="btn btn-primary" href="#film" data-book="film">Start film review</a>
+        </div>
+      </div>
+      <div class="film-visual rise">
+        <figure class="photo" data-photo="film"><img alt=""><span class="slot"><b>Photo slot</b>Film or sideline shot, 3:2<code>images/film.jpg</code></span></figure>
+        <div class="clip">
+          <span class="tip-head">Sample coaching tip</span>
+          <b>0:42 &middot; 3rd &amp; 6 &middot; Curl</b>
+          <span>Stem was sold, but you rounded the break. Sink the hips on your last step and snap back to the ball. That wins you a yard of space.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about" aria-labelledby="about-title">
+    <div class="wrap">
+      <div class="about-visual rise">
+        <figure class="photo main" data-photo="about"><img alt=""><span class="slot"><b>Photo slot</b>You coaching, tall<code>images/about.jpg</code></span><span class="inset-cap">As a coach</span></figure>
+        <figure class="photo inset" data-photo="player"><img alt=""><span class="slot"><b>Photo slot</b>You as a player<code>images/player.jpg</code></span><span class="inset-cap">As a player</span></figure>
+      </div>
+      <div class="about-copy rise">
+        <h2 id="about-title">Coach Travis</h2>
+        <p class="big">The name Instinct means something to me. You never stop improving your instincts, and the only way to improve them is to prepare the right way.</p>
+        <p>As a receiver, I learned to read where the defense should be while running my route, from the alignment before the snap to the movement after it. That is what let me flow through routes instead of guessing. I played the game at a high level, and now I teach athletes how to see it and apply it to their own game.</p>
+        <ul class="creds">
+          <li>Former college wide receiver</li>
+          <li>Current high school assistant football coach</li>
+          <li>Trains WR, QB, RB, DB, LB, and kickers</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="videos" aria-labelledby="videos-title" hidden>
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="videos-title">Watch</h2>
+        <p class="lede">Drills you can take to your own practice, and clips from real sessions so you know what training looks like before you book.</p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Video categories">
+        <button role="tab" id="tab-drills" aria-selected="true" data-cat="drills">Drill library</button>
+        <button role="tab" id="tab-sessions" aria-selected="false" data-cat="sessions">Inside a session</button>
+      </div>
+      <div class="video-grid" id="video-grid" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="fields" aria-labelledby="fields-title">
+    <div class="wrap fields-wrap">
+      <div class="head rise">
+        <h2 id="fields-title">Where we train</h2>
+        <p class="lede">Choose the field closest to you when you book. More locations are opening soon.</p>
+      </div>
+      <div class="field-list rise" id="field-list"></div>
+    </div>
+  </section>
+
+  <section class="policies-sec" id="policies" aria-labelledby="policies-title">
+    <div class="wrap">
+      <div class="head rise"><h2 id="policies-title">Policies</h2><p class="lede">Please read these before booking. By booking, you agree to them.</p></div>
+      <div class="pol rise">
+        <h3>Cancellations</h3>
+        <div class="rules">
+          <div class="rule"><span class="when">1 hour or more</span><span>Full refund, or reschedule at no cost.</span></div>
+          <div class="rule"><span class="when">Under 1 hour</span><span>Treated as a no-show. No refund.</span></div>
+          <div class="rule"><span class="when">No-show</span><span>No refund.</span></div>
+        </div>
+      </div>
+      <div class="pol rise">
+        <h3>Weather and coach cancellations</h3>
+        <ul>
+          <li>If I cancel for weather or scheduling, you choose a full refund or a reschedule.</li>
+          <li>Lightning clears the field. We return 30 minutes after the last strike or thunder.</li>
+          <li>If a session stops before the halfway point, you get a free makeup session. Past halfway, it counts as complete.</li>
+        </ul>
+      </div>
+      <div class="pol rise">
+        <h3>Groups</h3>
+        <ul>
+          <li>Groups run with 3 to 8 athletes.</li>
+          <li>If fewer than 3 are booked 24 hours before, you get a full refund or the option to switch to a 1-on-1.</li>
+          <li>Skill positions and kickers train in separate groups.</li>
+        </ul>
+      </div>
+      <div class="pol rise">
+        <h3>Athletes under 18</h3>
+        <ul>
+          <li>A parent or guardian books, pays, and signs the waiver.</li>
+          <li>Parents are welcome to watch any session.</li>
+          <li>Training happens in open, visible areas. Parents are included in all messages with athletes.</li>
+          <li>Athletes are only filmed or posted with a parent's written permission.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <h2 id="faq-title" class="rise">Questions</h2>
+      <div class="rise">
+        <details>
+          <summary>What should my athlete bring?</summary>
+          <p>Cleats, athletic clothes, and a full water bottle. I bring the balls, cones, and all other equipment.</p>
+        </details>
+        <details>
+          <summary>Can parents watch?</summary>
+          <p>Yes. Parents are welcome at every session.</p>
+        </details>
+        <details>
+          <summary>What about the heat?</summary>
+          <p>Sessions are scheduled early morning and evening when possible, with water breaks throughout.</p>
+        </details>
+        <details>
+          <summary>Do you train athletes from any school?</summary>
+          <p>Yes. Training is open to athletes from any school or program.</p>
+        </details>
+        <details>
+          <summary>How do I send film for review?</summary>
+          <p>After you join, send a link to your clips from Hudl, YouTube, or Google Drive. Include the play times you want looked at and your position.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="contact" aria-labelledby="contact-title">
+    <div class="wrap rise">
+      <h2 id="contact-title">Ready to train?</h2>
+      <p>Book a session online, or reach out with questions about sessions, groups, or film review.</p>
+      <a class="btn btn-light" href="#sessions" data-book>Book a session</a>
+      <div class="contact-lines">
+        <div class="copyline"><code id="c-email">instinctfootball954@gmail.com</code><button type="button" data-copy="c-email">Copy</button></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; <span id="yr"></span> Instinct Football 954</span>
+    <span>Coral Springs, FL</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   SETTINGS: edit this block, nothing else needs to change.
+   ============================================================ */
+const SITE = {
+  // Paste links from your Square Appointments dashboard here.
+  // Leave "" until Square is set up; buttons will show a "booking opens soon" note.
+  booking: {
+    main:  "",   // your main Square booking page
+    one:   "",   // deep link to the 1-on-1 service (optional, falls back to main)
+    group: "",   // deep link to the group service (optional)
+    film:  ""    // Square subscription checkout link for film review
+  },
+
+  // PHOTOS: keep your images in an "images" folder next to index.html.
+  // To swap a photo, replace the file (same name) or change the path here.
+  photos: {
+    hero:   { src: "images/hero.jpg",   alt: "Football on the practice field turf" },
+    film:   { src: "images/film.jpg",   alt: "Coaches reviewing plays with players on the sideline" },
+    about:  { src: "images/about.jpg",  alt: "Coach Travis on the field with a football" },
+    player: { src: "images/player.jpg", alt: "Travis as a college wide receiver" }
+  },
+  // true: show dashed "Photo slot" boxes where photos are missing (for building).
+  // false: hide empty slots completely (use this when you go live).
+  showPhotoSlots: false,
+
+  // YouTube: paste only the video ID (the part after "watch?v=").
+  // The Watch section stays hidden until at least one ID is filled in.
+  videos: [
+    { cat: "drills",   title: "Release package vs. press",     pos: "WR", id: "" },
+    { cat: "drills",   title: "Top-of-route breaks",           pos: "WR", id: "" },
+    { cat: "drills",   title: "Backpedal and break",           pos: "DB", id: "" },
+    { cat: "drills",   title: "Drop-back footwork",            pos: "QB", id: "" },
+    { cat: "drills",   title: "Plant foot and follow-through", pos: "K",  id: "" },
+    { cat: "drills",   title: "Ball security",                 pos: "RB", id: "" },
+    { cat: "sessions", title: "1-on-1 session highlights",     pos: "WR", id: "" },
+    { cat: "sessions", title: "Skill group session",           pos: "Group", id: "" },
+    { cat: "sessions", title: "Kicking session",               pos: "K",  id: "" }
+  ],
+
+  // status: "open" or "soon"
+  fields: [
+    { name: "Lauderhill Sports Complex",    city: "Lauderhill",    status: "open" },
+    { name: "Tamarac Sports Complex",       city: "Tamarac",       status: "open" },
+    { name: "Mullins Park",                 city: "Coral Springs", status: "soon" },
+    { name: "Spanish River Sports Complex", city: "Boca Raton",    status: "soon" }
+  ]
+};
+/* ============================================================ */
+
+(function () {
+  function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+  // Header turns solid after you scroll past the top of the photo
+  const bar = document.getElementById('topbar');
+  const setBar = () => bar.classList.toggle('solid', scrollY > 40);
+  setBar(); addEventListener('scroll', setBar, { passive: true });
+
+  // Booking buttons
+  const notice = document.getElementById('booking-notice');
+  document.querySelectorAll('[data-book]').forEach(el => {
+    const key = el.getAttribute('data-book');
+    const url = (key && SITE.booking[key]) || SITE.booking.main;
+    if (url) {
+      el.href = url; el.target = '_blank'; el.rel = 'noopener';
+    } else {
+      el.addEventListener('click', () => { notice.hidden = false; });
+    }
+  });
+
+  // Photos
+  document.querySelectorAll('[data-photo]').forEach(fig => {
+    const p = SITE.photos[fig.dataset.photo] || {};
+    const img = fig.querySelector('img'), slot = fig.querySelector('.slot');
+    if (p.src) {
+      img.alt = p.alt || '';
+      img.onerror = () => {
+        const backup = window.BUILT_IN_PHOTOS && BUILT_IN_PHOTOS[fig.dataset.photo];
+        if (backup && img.src !== backup) { img.src = backup; return; }
+        img.removeAttribute('src'); slot.hidden = !SITE.showPhotoSlots; if (!SITE.showPhotoSlots) fig.hidden = true;
+      };
+      img.src = p.src; slot.hidden = true;
+    } else if (!SITE.showPhotoSlots) {
+      fig.hidden = true;
+    }
+  });
+  if (!SITE.photos.about.src && !SITE.showPhotoSlots) document.getElementById('about').classList.add('no-photo');
+
+  // Videos: only show the section once real videos exist
+  const vids = SITE.videos.filter(v => /^[A-Za-z0-9_-]{6,20}$/.test(v.id));
+  if (vids.length) {
+    document.getElementById('videos').hidden = false;
+    const grid = document.getElementById('video-grid');
+    const tabs = document.querySelectorAll('[role="tab"]');
+    tabs.forEach(t => { if (!vids.some(v => v.cat === t.dataset.cat)) t.hidden = true; });
+    const render = cat => {
+      grid.innerHTML = vids.filter(v => v.cat === cat).map(v =>
+        `<div class="video"><div class="frame"><iframe src="https://www.youtube-nocookie.com/embed/${v.id}" title="${esc(v.title)}" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div><div class="video-meta"><strong>${esc(v.title)}</strong><span>${esc(v.pos)}</span></div></div>`
+      ).join('');
+    };
+    tabs.forEach(t => t.addEventListener('click', () => {
+      tabs.forEach(x => x.setAttribute('aria-selected', String(x === t)));
+      render(t.dataset.cat);
+    }));
+    const first = [...tabs].find(t => !t.hidden);
+    tabs.forEach(x => x.setAttribute('aria-selected', String(x === first)));
+    render(first.dataset.cat);
+  }
+
+  // Fields
+  document.getElementById('field-list').innerHTML = SITE.fields.map(f =>
+    `<div class="field"><strong>${esc(f.name)}</strong><span class="city">${esc(f.city)}</span><span class="status ${f.status === 'open' ? 'ok' : 'wait'}">${f.status === 'open' ? 'Booking now' : 'Coming soon'}</span></div>`
+  ).join('');
+
+  // Copy buttons
+  document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', () => {
+    const el = document.getElementById(b.dataset.copy);
+    const done = () => { b.textContent = 'Copied'; setTimeout(() => (b.textContent = 'Copy'), 1500); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    try { navigator.clipboard.writeText(el.textContent).then(done, fallback); } catch (e) { fallback(); }
+  }));
+
+  // Sections settle into place as they scroll into view (always readable)
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.remove('pending'); io.unobserve(e.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.rise').forEach(el => {
+      if (el.getBoundingClientRect().top > innerHeight) { el.classList.add('pending'); io.observe(el); }
+    });
+  }
+
+  document.getElementById('yr').textContent = new Date().getFullYear();
+})();
+</script>
+
+</body>
+</html>
