@@ -325,7 +325,7 @@ footer a:hover { color: var(--white); }
       <a href="#film">Film Review</a>
       <a href="#about">About</a>
       <a href="#policies">Policies</a>
-      <a class="btn btn-primary" href="#sessions" data-book>Book</a>
+      <a class="btn btn-primary" href="#sessions">Book</a>
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span><span></span></button>
     </nav>
   </div>
@@ -341,7 +341,7 @@ footer a:hover { color: var(--white); }
       <p>Training from a former college receiver and current high school coach. Learn to read the play before it happens, then react without thinking twice.</p>
       <div class="positions" aria-label="Positions trained"><span>WR</span><span>QB</span><span>RB</span><span>DB</span><span>LB</span><span>K</span></div>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="#sessions" data-book>Book a session</a>
+        <a class="btn btn-primary" href="#sessions">Book a session</a>
         <a class="btn btn-outline" href="#method">The method</a>
       </div>
     </div>
@@ -590,7 +590,7 @@ footer a:hover { color: var(--white); }
     <div class="wrap rise">
       <h2 id="contact-title">Ready to train?</h2>
       <p>Book a session online, or reach out with questions about sessions, groups, or film review.</p>
-      <a class="btn btn-light" href="#sessions" data-book>Book a session</a>
+      <a class="btn btn-light" href="#sessions">Book a session</a>
       <div class="contact-lines">
         <div class="copyline"><code id="c-email">instinctfootball954@gmail.com</code><button type="button" data-copy="c-email">Copy</button></div>
         <a class="ig-cta" id="ig-cta" href="https://www.instagram.com/instinctfootball954/" target="_blank" rel="noopener">@instinctfootball954 on Instagram</a>
@@ -671,7 +671,7 @@ const SITE = {
 
   // Booking buttons: Square when the links are filled in, otherwise a ready-to-send email
   const notice = document.getElementById('booking-notice');
-  const sessionForm = 'Athlete name:\nAge and grad year:\nPosition(s):\nPreferred days and times:\nPreferred field (Lauderhill or Tamarac):\nParent or guardian name and phone:\n';
+  const sessionForm = 'Athlete name:\nAge and grad year:\nPosition(s):\nPreferred days and times:\nPreferred field:\nParent or guardian name and phone:\n';
   const REQUEST = {
     main:  { subject: 'Training session request',     body: 'Session type (1-on-1, small group, or kicking):\n' + sessionForm },
     one:   { subject: '1-on-1 session request',       body: sessionForm },
