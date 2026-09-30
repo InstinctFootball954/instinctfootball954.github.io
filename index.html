@@ -3,8 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Instinct Football 954</title>
+<title>Instinct Football 954 | Football Position Training in Broward &amp; Palm Beach</title>
 <meta name="description" content="Position training for WR, QB, RB, DB, LB and kickers in Broward and Palm Beach. 1-on-1 sessions, small groups, and monthly film review.">
+<link rel="canonical" href="https://instinctfootball954.github.io/">
+<meta name="theme-color" content="#1D252C">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Instinct Football 954">
+<meta property="og:title" content="Instinct Football 954 | Prepare until it's instinct.">
+<meta property="og:description" content="Position training for WR, QB, RB, DB, LB and kickers in Broward and Palm Beach. 1-on-1 sessions, small groups, and monthly film review.">
+<meta property="og:url" content="https://instinctfootball954.github.io/">
+<meta property="og:image" content="https://instinctfootball954.github.io/images/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Instinct Football 954","description":"Football position training for WR, QB, RB, DB, LB and kickers in Broward and Palm Beach counties. 1-on-1 sessions, small groups, and monthly film review.","url":"https://instinctfootball954.github.io/","email":"instinctfootball954@gmail.com","image":"https://instinctfootball954.github.io/images/share.jpg","logo":"https://instinctfootball954.github.io/images/apple-touch-icon.png","priceRange":"$30-$50","sameAs":["https://www.instagram.com/instinctfootball954/"],"areaServed":[{"@type":"AdministrativeArea","name":"Broward County, Florida"},{"@type":"AdministrativeArea","name":"Palm Beach County, Florida"}]}
+</script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg transform='rotate(28 32 32)'%3E%3Cpath d='M32 3 Q63 32 32 61 Q1 32 32 3Z' fill='%23002C5F' stroke='%237FAAE0' stroke-width='3'/%3E%3Cpath d='M32 17V47M25 17H39M28 25H36M28 32H36M28 39H36M25 47H39' stroke='%23fff' stroke-width='3.5' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -77,7 +92,23 @@ section { padding-block: clamp(72px, 10vw, 128px); }
 .nav a:hover, .nav a:focus-visible { opacity: 1; }
 .nav a:not(.btn):hover, .nav a:not(.btn):focus-visible { background-size: 100% 2px; }
 .nav .btn { padding: 9px 20px; font-size: 0.95rem; opacity: 1; }
-@media (max-width: 880px) { .nav a:not(.btn) { display: none; } }
+@media (max-width: 880px) { .nav a:not(.btn) { display: none; } .nav { gap: 10px; } }
+.menu-btn { display: none; width: 44px; height: 44px; padding: 0; border-radius: 999px; border: 1px solid rgba(255,255,255,0.35); background: rgba(21,27,32,0.35); cursor: pointer; align-content: center; justify-items: center; gap: 4px; transition: border-color 0.2s, background 0.2s; }
+.menu-btn:hover { border-color: var(--white); }
+.menu-btn span { display: block; width: 18px; height: 2px; background: var(--white); border-radius: 2px; transition: transform 0.25s, opacity 0.2s; }
+.topbar.open .menu-btn span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.topbar.open .menu-btn span:nth-child(2) { opacity: 0; }
+.topbar.open .menu-btn span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+.mobile-menu { display: none; }
+.topbar.open { background: var(--anvil-deep); border-color: var(--rule); }
+@media (max-width: 460px) { .brand-text span { letter-spacing: 0.2em; white-space: nowrap; } .brand svg { width: 32px; height: 32px; } .brand { gap: 10px; } }
+@media (max-width: 880px) {
+  .menu-btn { display: grid; }
+  .topbar.open .mobile-menu { display: grid; padding: 4px 24px 20px; border-top: 1px solid var(--rule); }
+  .mobile-menu a { color: var(--white); text-decoration: none; font-weight: 500; font-size: 1.15rem; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  .mobile-menu a:last-child { border-bottom: 0; }
+  .mobile-menu a:hover, .mobile-menu a:focus-visible { color: var(--speed-lite); }
+}
 
 /* Hero */
 .hero { position: relative; min-height: min(92vh, 860px); display: grid; place-items: center; text-align: center; padding: calc(var(--head-h) + 48px) 24px 72px; overflow: hidden; isolation: isolate; }
@@ -263,11 +294,16 @@ details p { margin-top: 10px; color: var(--gray); max-width: 62ch; }
 .cta p { color: rgba(255,255,255,0.85); font-size: 1.12rem; }
 .contact-lines { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 28px; margin-top: 6px; }
 .copyline { display: flex; align-items: center; gap: 10px; }
+.ig-cta { color: var(--white); font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.45); padding-bottom: 1px; transition: border-color 0.2s; }
+.ig-cta:hover { border-color: var(--white); }
 .copyline code { font-family: var(--body); font-size: 1.05rem; user-select: all; overflow-wrap: anywhere; }
 .copyline button:hover, .copyline button:focus-visible { background: var(--white); color: var(--speed); border-color: var(--white); }
 .copyline button { transition: background 0.2s, color 0.2s, border-color 0.2s; font-family: var(--body); font-weight: 600; font-size: 0.8rem; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.45); background: transparent; color: var(--white); cursor: pointer; }
 footer { background: var(--anvil-deep); color: var(--gray); font-size: 0.9rem; padding-block: 26px; }
 footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.foot-links { display: flex; gap: 20px; }
+footer a { color: var(--gray); text-decoration: none; transition: color 0.2s; }
+footer a:hover { color: var(--white); }
 </style>
 </head>
 <body>
@@ -290,8 +326,10 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
       <a href="#about">About</a>
       <a href="#policies">Policies</a>
       <a class="btn btn-primary" href="#sessions" data-book>Book</a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span><span></span></button>
     </nav>
   </div>
+  <div class="mobile-menu" id="mobile-menu"></div>
 </header>
 
 <main id="top">
@@ -406,7 +444,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
         </article>
       </div>
       <p class="policy-line">Cancel 1 hour or more before your session for a full refund or free reschedule. Later cancellations and no-shows are not refunded. <a href="#policies">Read all policies before booking.</a></p>
-      <p class="notice" id="booking-notice" hidden>Online booking opens soon. Reach out using the contact info at the bottom of this page to reserve a spot.</p>
+      <p class="notice" id="booking-notice" hidden>Online booking opens soon. Your email app should open with a request ready to send. If it doesn't, email instinctfootball954@gmail.com to reserve a spot.</p>
     </div>
   </section>
 
@@ -555,6 +593,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
       <a class="btn btn-light" href="#sessions" data-book>Book a session</a>
       <div class="contact-lines">
         <div class="copyline"><code id="c-email">instinctfootball954@gmail.com</code><button type="button" data-copy="c-email">Copy</button></div>
+        <a class="ig-cta" id="ig-cta" href="https://www.instagram.com/instinctfootball954/" target="_blank" rel="noopener">@instinctfootball954 on Instagram</a>
       </div>
     </div>
   </section>
@@ -563,7 +602,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 <footer>
   <div class="wrap">
     <span>&copy; <span id="yr"></span> Instinct Football 954</span>
-    <span>Coral Springs, FL</span>
+    <span class="foot-links"><a id="ig-link" href="#" target="_blank" rel="noopener" hidden>Instagram</a><span>Coral Springs, FL</span></span>
   </div>
 </footer>
 
@@ -572,8 +611,11 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
    SETTINGS: edit this block, nothing else needs to change.
    ============================================================ */
 const SITE = {
+  email: "instinctfootball954@gmail.com",
+  instagram: "instinctfootball954",   // your Instagram handle without the @, e.g. "instinctfootball954"
+
   // Paste links from your Square Appointments dashboard here.
-  // Leave "" until Square is set up; buttons will show a "booking opens soon" note.
+  // Until they're filled in, each Book button opens an email to you with the request ready to send.
   booking: {
     main:  "",   // your main Square booking page
     one:   "",   // deep link to the 1-on-1 service (optional, falls back to main)
@@ -582,12 +624,14 @@ const SITE = {
   },
 
   // PHOTOS: keep your images in an "images" folder next to index.html.
-  // To swap a photo, replace the file (same name) or change the path here.
+  // To swap a photo, upload the new file and put its path here (.jpg, .png, or .webp all work).
+  // If you swap the hero photo, delete its "srcset" line.
   photos: {
-    hero:   { src: "images/hero.jpg",   alt: "Football on the practice field turf" },
-    film:   { src: "images/film.jpg",   alt: "Coaches reviewing plays with players on the sideline" },
-    about:  { src: "images/about.jpg",  alt: "Coach Travis on the field with a football" },
-    player: { src: "images/player.jpg", alt: "Travis as a college wide receiver" }
+    hero:   { src: "images/hero.webp",   alt: "Football on the practice field turf",
+              srcset: "images/hero-1000.webp 900w, images/hero.webp 1600w" },
+    film:   { src: "images/film.webp",   alt: "Coaches reviewing plays with players on the sideline" },
+    about:  { src: "images/about.webp",  alt: "Coach Travis on the field with a football" },
+    player: { src: "images/player.webp", alt: "Travis as a college wide receiver" }
   },
   // true: show dashed "Photo slot" boxes where photos are missing (for building).
   // false: hide empty slots completely (use this when you go live).
@@ -625,17 +669,39 @@ const SITE = {
   const setBar = () => bar.classList.toggle('solid', scrollY > 40);
   setBar(); addEventListener('scroll', setBar, { passive: true });
 
-  // Booking buttons
+  // Booking buttons: Square when the links are filled in, otherwise a ready-to-send email
   const notice = document.getElementById('booking-notice');
+  const sessionForm = 'Athlete name:\nAge and grad year:\nPosition(s):\nPreferred days and times:\nPreferred field (Lauderhill or Tamarac):\nParent or guardian name and phone:\n';
+  const REQUEST = {
+    main:  { subject: 'Training session request',     body: 'Session type (1-on-1, small group, or kicking):\n' + sessionForm },
+    one:   { subject: '1-on-1 session request',       body: sessionForm },
+    group: { subject: 'Small group session request',  body: 'Group (skill positions or kickers):\n' + sessionForm },
+    film:  { subject: 'Film review membership',       body: 'Athlete name:\nPosition:\nSchool or team:\nLink to film (Hudl, YouTube, or Google Drive):\nParent or guardian name and phone:\n' }
+  };
   document.querySelectorAll('[data-book]').forEach(el => {
-    const key = el.getAttribute('data-book');
-    const url = (key && SITE.booking[key]) || SITE.booking.main;
+    const key = el.getAttribute('data-book') || 'main';
+    const url = SITE.booking[key] || SITE.booking.main;
     if (url) {
       el.href = url; el.target = '_blank'; el.rel = 'noopener';
     } else {
+      const r = REQUEST[key] || REQUEST.main;
+      el.href = 'mailto:' + SITE.email + '?subject=' + encodeURIComponent(r.subject) + '&body=' + encodeURIComponent('Hi Coach Travis,\n\n' + r.body + '\nThank you!');
       el.addEventListener('click', () => { notice.hidden = false; });
     }
   });
+
+  // Phone menu
+  const topbar = document.getElementById('topbar'), menuBtn = document.getElementById('menu-btn'), menu = document.getElementById('mobile-menu');
+  menu.innerHTML = [...document.querySelectorAll('.nav a:not(.btn)')].map(a => `<a href="${a.getAttribute('href')}">${esc(a.textContent)}</a>`).join('');
+  const setMenu = open => { topbar.classList.toggle('open', open); menuBtn.setAttribute('aria-expanded', String(open)); menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); };
+  menuBtn.addEventListener('click', () => setMenu(!topbar.classList.contains('open')));
+  menu.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+  addEventListener('resize', () => { if (innerWidth > 880) setMenu(false); });
+
+  // Instagram link in the footer (appears once a handle is set)
+  const ig = document.getElementById('ig-link');
+  if (SITE.instagram) { ig.href = 'https://www.instagram.com/' + SITE.instagram.replace(/^@/, '') + '/'; ig.hidden = false; }
 
   // Photos
   document.querySelectorAll('[data-photo]').forEach(fig => {
@@ -645,9 +711,12 @@ const SITE = {
       img.alt = p.alt || '';
       img.onerror = () => {
         const backup = window.BUILT_IN_PHOTOS && BUILT_IN_PHOTOS[fig.dataset.photo];
-        if (backup && img.src !== backup) { img.src = backup; return; }
+        if (backup && img.src !== backup) { img.removeAttribute('srcset'); img.src = backup; return; }
         img.removeAttribute('src'); slot.hidden = !SITE.showPhotoSlots; if (!SITE.showPhotoSlots) fig.hidden = true;
       };
+      if (fig.dataset.photo === 'hero') { img.fetchPriority = 'high'; } else { img.loading = 'lazy'; }
+      img.decoding = 'async';
+      if (p.srcset) { img.sizes = '100vw'; img.srcset = p.srcset; }
       img.src = p.src; slot.hidden = true;
     } else if (!SITE.showPhotoSlots) {
       fig.hidden = true;
