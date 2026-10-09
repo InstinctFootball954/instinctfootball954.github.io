@@ -184,6 +184,20 @@ section { padding-block: clamp(72px, 10vw, 128px); }
   .item-price { grid-column: 2; grid-row: 1; }
   .item .btn { grid-column: 1 / -1; justify-self: start; }
 }
+.groups { margin-top: 40px; display: grid; gap: 14px; }
+.groups h3 { font-size: 1.3rem; }
+.group-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.group-list li { display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; gap: 20px; align-items: center; padding-block: 16px; border-bottom: 1px solid var(--rule); }
+.g-date { font-weight: 600; }
+.g-date small { display: block; color: var(--gray); font-weight: 400; font-size: 0.9rem; }
+.g-info { color: var(--gray); font-size: 0.98rem; min-width: 0; }
+.g-info b { color: var(--white); font-weight: 600; }
+.group-list .btn { padding: 10px 20px; font-size: 0.95rem; }
+.g-full { font-family: var(--label); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gray); padding: 10px 20px; }
+.groups-note { color: var(--gray); font-size: 0.98rem; }
+@media (max-width: 640px) { .group-list li { grid-template-columns: minmax(0, 1fr) auto; } .g-info { grid-column: 1 / -1; grid-row: 2; } }
+.pol-note { grid-column: 2; color: var(--gray); font-size: 0.95rem; margin: 4px 0 0; }
+@media (max-width: 760px) { .pol-note { grid-column: auto; } }
 .policy-line { margin-top: 28px; color: var(--gray); font-size: 0.98rem; }
 .policy-line a { font-weight: 600; text-underline-offset: 3px; transition: color 0.2s; }
 .policy-line a:hover { color: var(--white); }
@@ -440,7 +454,7 @@ footer a:hover { color: var(--white); }
       </div>
       <ol class="steps rise" aria-label="How booking works">
         <li><strong>Choose</strong><span>Pick the session, time, and field that works best for you.</span></li>
-        <li><strong>Sign</strong><span>A parent or guardian signs the waiver and agrees to the <a href="#policies">policies</a> for athletes under 18.</span></li>
+        <li><strong>Sign</strong><span>Sign the <a href="waiver.html">waiver</a> online before your first session. One signature covers 12 months.</span></li>
         <li><strong>Pay</strong><span>Pay in full online. Cards, Apple Pay, and Google Pay accepted.</span></li>
         <li><strong>Train</strong><span>Please arrive 10 minutes prior to the session start with water.</span></li>
       </ol>
@@ -473,6 +487,11 @@ footer a:hover { color: var(--white); }
           <div class="item-price">$35<small>per month</small></div>
           <a class="btn btn-outline" href="#film">How it works</a>
         </article>
+      </div>
+      <div class="groups rise" id="groups" hidden>
+        <h3>Upcoming groups</h3>
+        <ul class="group-list" id="group-list"></ul>
+        <p class="groups-note">Each spot is $30, paid when you book. Need a different day? <a href="#contact">Ask about the next group.</a></p>
       </div>
       <p class="policy-line">Cancel 1 hour or more before your session for a full refund or free reschedule. Later cancellations and no-shows are not refunded. <a href="#policies">Read all policies before booking.</a></p>
       <p class="notice" id="booking-notice" hidden>Online booking opens soon. Your email app should open with a request ready to send. If it doesn't, email instinctfootball954@gmail.com to reserve a spot.</p>
@@ -560,6 +579,16 @@ footer a:hover { color: var(--white); }
           <div class="rule"><span class="when">Under 1 hour</span><span>Treated as a no-show. No refund.</span></div>
           <div class="rule"><span class="when">No-show</span><span>No refund.</span></div>
         </div>
+        <p class="pol-note">To cancel or reschedule, reply to your booking confirmation or email instinctfootball954@gmail.com.</p>
+      </div>
+      <div class="pol rise">
+        <h3>Waiver</h3>
+        <ul>
+          <li>Every athlete needs a signed <a href="waiver.html">waiver</a> before their first session. You can sign it before or after you book.</li>
+          <li>One signature covers every session for 12 months.</li>
+          <li>Athletes under 18: a parent or legal guardian signs. Athletes 18 and older sign for themselves.</li>
+          <li>If you decide not to sign, you get a full refund.</li>
+        </ul>
       </div>
       <div class="pol rise">
         <h3>Weather and coach cancellations</h3>
@@ -596,6 +625,10 @@ footer a:hover { color: var(--white); }
         <details>
           <summary>What should my athlete bring?</summary>
           <p>Cleats, athletic clothes, and a full water bottle. I bring the balls, cones, and all other equipment.</p>
+        </details>
+        <details>
+          <summary>Do I sign a waiver every time?</summary>
+          <p>No. One signature covers every session for 12 months. <a href="waiver.html">Sign the waiver here.</a></p>
         </details>
         <details>
           <summary>Can parents watch?</summary>
@@ -666,7 +699,7 @@ footer a:hover { color: var(--white); }
 <footer>
   <div class="wrap">
     <span>&copy; <span id="yr"></span> Instinct Football 954</span>
-    <span class="foot-links"><a id="ig-link" href="#" target="_blank" rel="noopener" hidden>Instagram</a><span>Coral Springs, FL</span></span>
+    <span class="foot-links"><a href="waiver.html">Waiver</a><a id="ig-link" href="#" target="_blank" rel="noopener" hidden>Instagram</a><span>Coral Springs, FL</span></span>
   </div>
 </footer>
 
@@ -678,14 +711,19 @@ const SITE = {
   email: "instinctfootball954@gmail.com",
   instagram: "instinctfootball954",   // your Instagram handle without the @, e.g. "instinctfootball954"
 
-  // Paste links from your Square Appointments dashboard here.
-  // Until they're filled in, each Book button opens an email to you with the request ready to send.
+  // SQUARE LINKS. Until a link is filled in, that button opens an email to you with the request ready to send.
   booking: {
-    main:  "",   // your main Square booking page
-    one:   "",   // deep link to the 1-on-1 service (optional, falls back to main)
-    group: "",   // deep link to the group service (optional)
-    film:  ""    // Square subscription checkout link for film review
+    one:  "",   // 1-on-1: the booking link for your 1-on-1 service in Square Appointments
+    film: ""    // Film review: the monthly (recurring) Square payment link
   },
+
+  // SMALL GROUPS: add one line per group you schedule. Past dates hide themselves.
+  //   date: "YYYY-MM-DD"   time: "9:00 AM"   type: "Skill positions" or "Kickers"
+  //   link: the Square payment link for that group ($30)
+  //   full: true once 8 athletes have paid (shows "Full" instead of the button)
+  // Example: { date: "2026-10-24", time: "9:00 AM", field: "Lauderhill Sports Complex", type: "Skill positions", link: "", full: false },
+  groups: [
+  ],
 
   // PHOTOS: keep your images in an "images" folder next to index.html.
   // To swap a photo, upload the new file and put its path here (.jpg, .png, or .webp all work).
@@ -742,14 +780,32 @@ const SITE = {
     group: { subject: 'Small group session request',  body: 'Group (skill positions or kickers):\n' + sessionForm },
     film:  { subject: 'Film review membership',       body: 'Athlete name:\nPosition:\nSchool or team:\nLink to film (Hudl, YouTube, or Google Drive):\nParent or guardian name and phone:\n' }
   };
+  // Small groups: list upcoming dates; the group card button jumps to the list
+  const mailFor = (key, extra) => { const r = REQUEST[key] || REQUEST.main; return 'mailto:' + SITE.email + '?subject=' + encodeURIComponent(r.subject) + '&body=' + encodeURIComponent('Hi Coach Travis,\n\n' + (extra || '') + r.body + '\nThank you!'); };
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const upcoming = (SITE.groups || []).map(g => ({ ...g, d: new Date(g.date + 'T00:00:00') }))
+    .filter(g => !isNaN(g.d) && g.d >= today).sort((a, b) => a.d - b.d);
+  if (upcoming.length) {
+    document.getElementById('group-list').innerHTML = upcoming.map(g => {
+      const day = g.d.toLocaleDateString('en-US', { weekday: 'long' });
+      const date = g.d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const action = g.full ? '<span class="g-full">Full</span>'
+        : g.link ? `<a class="btn btn-primary" href="${esc(g.link)}" target="_blank" rel="noopener">Book a spot</a>`
+        : `<a class="btn btn-primary" href="${esc(mailFor('group', 'Group: ' + date + ', ' + (g.time || '') + ', ' + (g.field || '') + '\n'))}">Request a spot</a>`;
+      return `<li><span class="g-date">${esc(date)}<small>${esc(day)}</small></span><span class="g-info"><b>${esc(g.type || 'Small group')}</b> &middot; ${esc(g.time || '')} &middot; ${esc(g.field || '')}</span>${action}</li>`;
+    }).join('');
+    document.getElementById('groups').hidden = false;
+    const gb = document.querySelector('[data-book="group"]');
+    gb.removeAttribute('data-book'); gb.href = '#groups'; gb.textContent = 'See dates';
+  }
+
   document.querySelectorAll('[data-book]').forEach(el => {
     const key = el.getAttribute('data-book') || 'main';
-    const url = SITE.booking[key] || SITE.booking.main;
+    const url = SITE.booking[key];
     if (url) {
       el.href = url; el.target = '_blank'; el.rel = 'noopener';
     } else {
-      const r = REQUEST[key] || REQUEST.main;
-      el.href = 'mailto:' + SITE.email + '?subject=' + encodeURIComponent(r.subject) + '&body=' + encodeURIComponent('Hi Coach Travis,\n\n' + r.body + '\nThank you!');
+      el.href = mailFor(key);
       el.addEventListener('click', () => { notice.hidden = false; });
     }
   });
