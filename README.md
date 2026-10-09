@@ -9,6 +9,7 @@ Website for Instinct Football 954, live at https://instinctfootball954.github.io
 | `index.html` | The website. Settings (booking links, photos, videos, fields, Instagram) are in the SETTINGS block near the bottom. |
 | `404.html` | Page shown for broken links |
 | `robots.txt`, `sitemap.xml` | Help Google find and list the site |
+| `manifest.webmanifest`, `sw.js` | Make the site installable as a phone app. Pages always load fresh online, so updates reach the app automatically. |
 | `.nojekyll` | Tells GitHub Pages to publish the files as-is |
 | `images/` | Site photos (WebP), link-preview image, home-screen icon |
 

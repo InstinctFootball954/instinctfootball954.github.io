@@ -8,6 +8,11 @@
 <link rel="canonical" href="https://instinctfootball954.github.io/">
 <meta name="theme-color" content="#1D252C">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Instinct 954">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Instinct Football 954">
 <meta property="og:title" content="Instinct Football 954 | Prepare until it's instinct.">
@@ -766,6 +771,11 @@ const SITE = {
     document.querySelectorAll('.rise').forEach(el => {
       if (el.getBoundingClientRect().top > innerHeight) { el.classList.add('pending'); io.observe(el); }
     });
+  }
+
+  // Installable app: register the service worker (live site only)
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
   }
 
   document.getElementById('yr').textContent = new Date().getFullYear();
