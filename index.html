@@ -293,6 +293,27 @@ details[open] summary::after { content: "\2212"; }
 details p { margin-top: 10px; color: var(--gray); max-width: 62ch; }
 @media (max-width: 860px) { .faq .wrap { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
 
+/* Get the app */
+.app-sec { padding-top: 0; }
+.app-wrap { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 64px; align-items: center; }
+.app-copy { display: grid; gap: 18px; justify-items: start; }
+.app-badge { display: grid; justify-items: center; gap: 8px; margin-top: 8px; }
+.app-badge svg { width: 76px; height: 76px; padding: 12px; background: var(--anvil-deep); border: 1px solid var(--rule); border-radius: 20px; }
+.app-badge span { font-size: 0.85rem; color: var(--gray); }
+.app-card { background: var(--anvil-raise); border-radius: 12px; padding: 28px; display: grid; gap: 20px; min-width: 0; }
+.app-tabs { display: flex; gap: 8px; }
+.app-tabs button { font-family: var(--body); font-weight: 600; font-size: 0.98rem; padding: 8px 18px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--white); cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+.app-tabs button:hover { border-color: var(--speed-lite); }
+.app-tabs button[aria-selected="true"] { background: var(--speed); border-color: var(--speed-lite); }
+.app-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: appstep; }
+.app-steps li { counter-increment: appstep; position: relative; padding-left: 44px; color: var(--gray); }
+.app-steps li::before { content: counter(appstep); position: absolute; left: 0; top: -2px; font-family: var(--display); font-size: 1.3rem; line-height: 1.4; color: var(--speed-lite); }
+.app-steps strong { color: var(--white); font-weight: 600; }
+.app-install { justify-self: start; }
+.app-note { color: var(--gray); font-size: 0.95rem; border-top: 1px solid var(--rule); padding-top: 16px; }
+.app-note strong { color: var(--white); font-weight: 600; overflow-wrap: anywhere; }
+@media (max-width: 860px) { .app-wrap { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
+
 /* Closing band (Sackett-style centered CTA) */
 .cta { background: var(--speed); text-align: center; }
 .cta .wrap { display: grid; justify-items: center; gap: 22px; max-width: 760px; }
@@ -330,6 +351,7 @@ footer a:hover { color: var(--white); }
       <a href="#film">Film Review</a>
       <a href="#about">About</a>
       <a href="#policies">Policies</a>
+      <a href="#app" data-app-link>App</a>
       <a class="btn btn-primary" href="#sessions">Book</a>
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span><span></span></button>
     </nav>
@@ -591,6 +613,39 @@ footer a:hover { color: var(--white); }
     </div>
   </section>
 
+  <section class="app-sec" id="app" aria-labelledby="app-title">
+    <div class="wrap app-wrap">
+      <div class="app-copy rise">
+        <h2 id="app-title">Get the app</h2>
+        <p class="lede">Add Instinct Football 954 to your home screen. It opens full screen like any other app, works when the signal at the field is weak, and updates on its own every time the site does.</p>
+        <div class="app-badge" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><g transform="rotate(28 32 32)"><path d="M32 3 Q63 32 32 61 Q1 32 32 3Z" fill="#002C5F" stroke="#7FAAE0" stroke-width="3"/><path d="M32 17V47M25 17H39M28 25H36M28 32H36M28 39H36M25 47H39" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" fill="none"/></g></svg>
+          <span>Instinct 954</span>
+        </div>
+      </div>
+      <div class="app-card rise">
+        <div class="app-tabs" role="tablist" aria-label="Phone type">
+          <button type="button" role="tab" id="app-tab-ios" aria-selected="true" data-os="ios">iPhone</button>
+          <button type="button" role="tab" id="app-tab-android" aria-selected="false" data-os="android">Android</button>
+        </div>
+        <ol class="app-steps" data-os-steps="ios">
+          <li>Open this site in <strong>Safari</strong>.</li>
+          <li>Tap the <strong>Share</strong> button, the square with an arrow pointing up. On newer iPhones it may be inside the <strong>&middot;&middot;&middot;</strong> menu.</li>
+          <li>Scroll down and tap <strong>Add to Home Screen</strong>.</li>
+          <li>Tap <strong>Add</strong>. The Instinct 954 icon appears on your home screen.</li>
+        </ol>
+        <ol class="app-steps" data-os-steps="android" hidden>
+          <li>Open this site in <strong>Chrome</strong>.</li>
+          <li>Tap the <strong>&#8942;</strong> menu in the top right corner.</li>
+          <li>Tap <strong>Install app</strong> or <strong>Add to Home screen</strong>.</li>
+          <li>Tap <strong>Install</strong>. The Instinct 954 icon appears on your home screen.</li>
+        </ol>
+        <button type="button" class="btn btn-primary app-install" id="app-install" hidden>Install the app</button>
+        <p class="app-note" id="app-desktop-note" hidden>On a computer? Open <strong>instinctfootball954.github.io</strong> on your phone and follow these steps.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="cta" id="contact" aria-labelledby="contact-title">
     <div class="wrap rise">
       <h2 id="contact-title">Ready to train?</h2>
@@ -771,6 +826,37 @@ const SITE = {
     document.querySelectorAll('.rise').forEach(el => {
       if (el.getBoundingClientRect().top > innerHeight) { el.classList.add('pending'); io.observe(el); }
     });
+  }
+
+  // Get the app: show the right steps for this phone, hide everything once installed
+  const appSec = document.getElementById('app');
+  const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  if (standalone) {
+    appSec.hidden = true;
+    document.querySelectorAll('[data-app-link], #mobile-menu a[href="#app"]').forEach(a => a.hidden = true);
+  } else {
+    const ua = navigator.userAgent;
+    const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isAndroid = /Android/.test(ua);
+    const appTabs = appSec.querySelectorAll('[data-os]');
+    const showOS = os => {
+      appTabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.os === os)));
+      appSec.querySelectorAll('[data-os-steps]').forEach(l => l.hidden = l.dataset.osSteps !== os);
+    };
+    appTabs.forEach(t => t.addEventListener('click', () => showOS(t.dataset.os)));
+    showOS(isAndroid ? 'android' : 'ios');
+    if (!isIOS && !isAndroid) document.getElementById('app-desktop-note').hidden = false;
+    // Android and desktop Chrome/Edge can install with one tap
+    let deferred = null;
+    const installBtn = document.getElementById('app-install');
+    addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; installBtn.hidden = false; });
+    installBtn.addEventListener('click', async () => {
+      if (!deferred) return;
+      deferred.prompt();
+      await deferred.userChoice.catch(() => {});
+      deferred = null; installBtn.hidden = true;
+    });
+    addEventListener('appinstalled', () => { installBtn.hidden = true; });
   }
 
   // Installable app: register the service worker (live site only)
