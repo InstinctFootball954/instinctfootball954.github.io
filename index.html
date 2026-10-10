@@ -198,6 +198,8 @@ section { padding-block: clamp(72px, 10vw, 128px); }
 @media (max-width: 640px) { .group-list li { grid-template-columns: minmax(0, 1fr) auto; } .g-info { grid-column: 1 / -1; grid-row: 2; } }
 .pol-note { grid-column: 2; color: var(--gray); font-size: 0.95rem; margin: 4px 0 0; }
 @media (max-width: 760px) { .pol-note { grid-column: auto; } }
+.film-note { margin-top: 14px; color: var(--gray); font-size: 0.95rem; }
+.film-note strong { color: var(--white); font-weight: 600; }
 .policy-line { margin-top: 28px; color: var(--gray); font-size: 0.98rem; }
 .policy-line a { font-weight: 600; text-underline-offset: 3px; transition: color 0.2s; }
 .policy-line a:hover { color: var(--white); }
@@ -514,6 +516,7 @@ footer a:hover { color: var(--white); }
           <div class="film-price">$35<small>per month</small></div>
           <a class="btn btn-primary" href="#film" data-book="film">Start film review</a>
         </div>
+        <p class="film-note">At checkout, choose <strong>Subscription: Monthly</strong> so it renews each month. Cancel anytime by email.</p>
       </div>
       <div class="film-visual rise">
         <figure class="photo" data-photo="film"><img alt=""><span class="slot"><b>Photo slot</b>Film or sideline shot, 3:2<code>images/film.jpg</code></span></figure>
