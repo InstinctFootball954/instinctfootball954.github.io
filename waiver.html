@@ -180,18 +180,18 @@ footer a { color: var(--gray); }
       <section class="card" aria-labelledby="s3">
         <div class="card-h"><span class="n">Step 3</span><h2 id="s3">Your details</h2></div>
         <div class="who" id="who-signs">Enter the athlete's date of birth above to see who signs.</div>
-        <div class="grid2" id="guardian-fields">
-          <label class="field"><span>Parent or guardian's full name</span><input type="text" name="signerName" autocomplete="name"></label>
-          <label class="field"><span>Relationship to the athlete</span>
-            <select name="relationship"><option value="">Choose one</option><option>Parent</option><option>Legal guardian</option></select></label>
+        <div class="grid2">
+          <label class="field"><span>Your relationship to the athlete</span>
+            <select name="relationship" required><option value="">Choose one</option><option>Parent</option><option>Legal guardian</option><option value="Myself">Myself (I'm the athlete, 18 or older)</option></select></label>
+          <label class="field" id="guardian-fields"><span>Parent or guardian's full name</span><input type="text" name="signerName" autocomplete="name"></label>
         </div>
         <div class="grid2">
           <label class="field"><span id="email-label">Email</span><input type="email" name="email" autocomplete="email" required><small>Your signed copy is sent here.</small></label>
-          <label class="field"><span id="phone-label">Phone</span><input type="tel" name="phone" autocomplete="tel" required></label>
+          <label class="field"><span id="phone-label">Phone</span><input type="tel" name="phone" autocomplete="tel-national" inputmode="tel" placeholder="(954) 555-0123" required></label>
         </div>
         <div class="grid2">
           <label class="field"><span>Emergency contact name</span><input type="text" name="emergencyName" required><small>Someone other than you, if possible.</small></label>
-          <label class="field"><span>Emergency contact phone</span><input type="tel" name="emergencyPhone" required></label>
+          <label class="field"><span>Emergency contact phone</span><input type="tel" name="emergencyPhone" autocomplete="off" inputmode="tel" placeholder="(954) 555-0123" required></label>
         </div>
         <label class="field"><span>Medical conditions, allergies, or injuries a coach or first responder should know</span><textarea name="medical" required placeholder="Write &quot;None&quot; if there aren't any."></textarea><small>Only the coach sees this. It is never shared.</small></label>
       </section>
@@ -268,7 +268,7 @@ footer a { color: var(--gray); }
    SCRIPT_URL: paste the Web app URL from Google Apps Script here.
    Until it is filled in, the live site shows "Online signing opens soon."
    ============================================================ */
-const SCRIPT_URL = "";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxj7aotQBg3RcGbT6k7zXb_WUez6FknDLilhtOTJOrxdPr-bsGO_KuQ6x69XJCZAWZNaA/exec";
 const WAIVER_VERSION = "2026-10";
 /* ============================================================ */
 
@@ -278,7 +278,7 @@ const WAIVER_VERSION = "2026-10";
   const isLiveSite = location.hostname === 'instinctfootball954.github.io';
   const preview = !SCRIPT_URL && !isLiveSite;
   const notLive = !SCRIPT_URL && isLiveSite;
-  if (notLive) { document.getElementById('not-live').hidden = false; document.getElementById('submit-btn').disabled = true; }
+  if (notLive) { document.getElementById('not-live').hidden = false; const b = document.getElementById('submit-btn'); b.disabled = true; b.textContent = 'Signing opens soon'; }
   if (preview) document.getElementById('preview-note').hidden = false;
 
   const docMinor = document.getElementById('doc-minor'), docAdult = document.getElementById('doc-adult');
@@ -302,9 +302,13 @@ const WAIVER_VERSION = "2026-10";
     kind = valid && age >= 18 ? 'adult' : 'minor';
     docMinor.hidden = kind !== 'minor';
     docAdult.hidden = kind !== 'adult';
+    const rel = f('relationship'), myself = rel.querySelector('option[value="Myself"]');
+    if (valid && kind === 'adult') { rel.value = 'Myself'; }
+    else if (rel.value === 'Myself') { rel.value = ''; }
+    myself.disabled = !(valid && kind === 'adult');
+    [...rel.options].forEach(o => { if (o.value && o.value !== 'Myself') o.disabled = valid && kind === 'adult'; });
     guardian.hidden = kind === 'adult';
     f('signerName').required = kind === 'minor';
-    f('relationship').required = kind === 'minor';
     document.getElementById('email-label').textContent = kind === 'minor' ? "Parent or guardian's email" : 'Your email';
     document.getElementById('phone-label').textContent = kind === 'minor' ? "Parent or guardian's phone" : 'Your phone';
     document.getElementById('sig-help').textContent = kind === 'minor' ? "Must match the parent or guardian's name above." : "Must match the athlete's name above.";
@@ -327,6 +331,11 @@ const WAIVER_VERSION = "2026-10";
   setKind();
 
   const norm = s => String(s || '').trim().replace(/\s+/g, ' ').toLowerCase();
+
+  // Phones: drop a leading +1 / 1 that autofill adds, then show as (954) 555-0123
+  function phoneDigits(v) { let d = String(v || '').replace(/\D/g, ''); if (d.length === 11 && d[0] === '1') d = d.slice(1); return d; }
+  function tidyPhone(el) { const d = phoneDigits(el.value); if (d.length === 10) el.value = '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6); }
+  ['phone', 'emergencyPhone'].forEach(n => { ['change', 'blur'].forEach(ev => f(n).addEventListener(ev, () => tidyPhone(f(n)))); });
   function clearErrors() { form.querySelectorAll('.field.err').forEach(el => el.classList.remove('err')); }
   function fail(msg, el) {
     const box = document.getElementById('form-error');
@@ -346,8 +355,10 @@ const WAIVER_VERSION = "2026-10";
     const age = ageOn(dob, new Date());
     if (!(age >= 4 && age <= 99)) return fail("Please check the athlete's date of birth.", f('athleteDob'));
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f('email').value.trim())) return fail('Please enter a valid email address.', f('email'));
-    if (String(f('phone').value).replace(/\D/g, '').length < 10) return fail('Please enter a 10-digit phone number.', f('phone'));
-    if (String(f('emergencyPhone').value).replace(/\D/g, '').length < 10) return fail('Please enter a 10-digit emergency phone number.', f('emergencyPhone'));
+    tidyPhone(f('phone')); tidyPhone(f('emergencyPhone'));
+    if (phoneDigits(f('phone').value).length !== 10) return fail('Please enter a 10-digit phone number.', f('phone'));
+    if (phoneDigits(f('emergencyPhone').value).length !== 10) return fail('Please enter a 10-digit emergency phone number.', f('emergencyPhone'));
+    if (kind === 'minor' && f('relationship').value === 'Myself') return fail('Athletes under 18 need a parent or legal guardian to sign.', f('relationship'));
     const signerName = kind === 'minor' ? f('signerName').value : f('athleteName').value;
     if (norm(f('signature').value) !== norm(signerName)) return fail(kind === 'minor' ? "Your typed signature must match the parent or guardian's name exactly." : "Your typed signature must match the athlete's name exactly.", f('signature'));
     if (!f('agree').checked) return fail('Please check the box to confirm you read and agree to the waiver.', f('agree'));
@@ -360,7 +371,7 @@ const WAIVER_VERSION = "2026-10";
       version: WAIVER_VERSION, kind,
       athlete: { name: f('athleteName').value.trim(), dob: f('athleteDob').value, school: f('school').value.trim(), gradYear: f('gradYear').value.trim(),
                  positions: [...form.querySelectorAll('input[name=positions]:checked')].map(i => i.value), experience: f('experience').value, goals: f('goals').value.trim() },
-      signer: { name: (minor ? f('signerName').value : f('athleteName').value).trim(), relationship: minor ? f('relationship').value : 'Self (athlete, 18 or older)', email: f('email').value.trim(), phone: f('phone').value.trim() },
+      signer: { name: (minor ? f('signerName').value : f('athleteName').value).trim(), relationship: minor ? f('relationship').value : 'Myself (athlete, 18 or older)', email: f('email').value.trim(), phone: f('phone').value.trim() },
       emergency: { name: f('emergencyName').value.trim(), phone: f('emergencyPhone').value.trim() },
       medical: f('medical').value.trim(),
       media: { film: f('mediaFilm').checked, post: f('mediaPost').checked, firstName: f('mediaName').checked },
