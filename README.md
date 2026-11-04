@@ -1,6 +1,6 @@
 # Instinct Football 954
 
-Website for Instinct Football 954, live at https://instinctfootball954.github.io
+Website for Instinct Football 954, live at https://instinctfootball954.com
 
 ## What's in this repo
 

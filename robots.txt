@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://instinctfootball954.github.io/sitemap.xml
+Sitemap: https://instinctfootball954.com/sitemap.xml
