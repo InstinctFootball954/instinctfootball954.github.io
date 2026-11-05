@@ -70,7 +70,16 @@ footer { padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px)) !importan
 .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
 @media (max-width: 640px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
 [hidden] { display: none !important; }
-.dob { display: grid; grid-template-columns: 1.2fr 0.9fr 1.1fr; gap: 8px; }
+.lbl { font-size: var(--t-small); font-weight: 600; color: var(--white); }
+.dob-row { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.yr-btn { font: inherit; font-size: var(--t-small); font-weight: 600; color: var(--white); background: var(--speed); border: 1px solid rgba(127,170,224,0.55); border-radius: 8px; padding: 0 14px; min-height: 46px; cursor: pointer; white-space: nowrap; }
+.yr-btn:hover { background: var(--speed-hover); }
+.yr-pop { position: absolute; top: calc(100% + 6px); right: 0; z-index: 20; width: min(300px, 100%); background: var(--anvil-deep); border: 1px solid #4A5864; border-radius: 12px; padding: 12px; box-shadow: 0 16px 40px rgba(0,0,0,0.45); }
+.yr-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; font-size: var(--t-small); font-weight: 600; color: var(--white); }
+.yr-back { font: inherit; font-size: var(--t-small); color: var(--speed-lite); background: none; border: 0; padding: 0; cursor: pointer; }
+.yr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.yr-grid button { font: inherit; font-size: var(--t-small); font-weight: 600; color: var(--white); background: var(--raise); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 4px; cursor: pointer; }
+.yr-grid button:hover, .yr-grid button:focus-visible { background: var(--speed); border-color: var(--speed-lite); }
 .field { display: grid; gap: 6px; min-width: 0; align-content: start; }
 .lbl-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .na-btn { font: inherit; font-size: var(--t-small); font-weight: 600; color: var(--gray); background: transparent; border: 1px solid #4A5864; border-radius: 999px; padding: 2px 12px; cursor: pointer; }
@@ -172,14 +181,18 @@ footer a { color: var(--gray); }
         <div class="card-h"><span class="n">Step 1</span><h2 id="s1">The athlete</h2></div>
         <div class="grid2">
           <label class="field"><span>Athlete's full name</span><input type="text" name="athleteName" autocomplete="off" required></label>
-          <fieldset class="field"><legend>Athlete's date of birth</legend>
-            <div class="dob">
-              <select name="dobMonth" aria-label="Birth month" required><option value="">Month</option><option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option><option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option><option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option><option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option></select>
-              <select name="dobDay" aria-label="Birth day" required><option value="">Day</option></select>
-              <select name="dobYear" aria-label="Birth year" required><option value="">Year</option></select>
+          <div class="field">
+            <div class="lbl-row"><label for="dob-input" class="lbl">Athlete's date of birth</label></div>
+            <div class="dob-row">
+              <input type="date" name="athleteDob" id="dob-input" required>
+              <button type="button" class="yr-btn" id="yr-btn" aria-haspopup="true" aria-expanded="false">Pick year</button>
+              <div class="yr-pop" id="yr-pop" hidden role="dialog" aria-label="Choose a birth year">
+                <div class="yr-head"><button type="button" class="yr-back" id="yr-back" hidden>&larr; Decades</button><span id="yr-title">Choose a decade</span></div>
+                <div class="yr-grid" id="yr-grid"></div>
+              </div>
             </div>
-            <input type="hidden" name="athleteDob">
-            <small id="age-note">This decides who signs.</small></fieldset>
+            <small id="age-note">This decides who signs.</small>
+          </div>
         </div>
       </section>
 
@@ -368,21 +381,48 @@ const WAIVER_VERSION = "2026-10";
     if (b.value === 'N/A') posBoxes.forEach(o => { if (o !== b) o.checked = false; });
     else posBoxes.forEach(o => { if (o.value === 'N/A') o.checked = false; });
   }));
-  // Date of birth: Month / Day / Year dropdowns (newest years first) feed the hidden athleteDob field
+  // "Pick year": choose a decade, then a year; the calendar then opens on that year
+  let jumpValue = '', jumpConfirmed = false;
   (function () {
-    const yr = new Date().getFullYear(), ySel = f('dobYear'), dSel = f('dobDay'), mSel = f('dobMonth');
-    for (let y = yr - 4; y >= yr - 99; y--) ySel.add(new Option(String(y), String(y)));
-    for (let d = 1; d <= 31; d++) dSel.add(new Option(String(d), String(d).padStart(2, '0')));
-    function sync() {
-      const y = ySel.value, m = mSel.value;
-      const max = (y && m) ? new Date(+y, +m, 0).getDate() : 31;
-      [...dSel.options].forEach(o => { if (o.value) o.disabled = +o.value > max; });
-      if (dSel.value && +dSel.value > max) dSel.value = '';
-      f('athleteDob').value = (y && m && dSel.value) ? y + '-' + m + '-' + dSel.value : '';
-      setKind();
+    const dob = f('athleteDob'), btn = document.getElementById('yr-btn'), pop = document.getElementById('yr-pop');
+    const grid = document.getElementById('yr-grid'), title = document.getElementById('yr-title'), back = document.getElementById('yr-back');
+    const maxYear = new Date().getFullYear() - 4, minYear = maxYear - 95;
+    function open(v) { pop.hidden = !v; btn.setAttribute('aria-expanded', String(v)); if (v) showDecades(); }
+    function showDecades() {
+      title.textContent = 'Choose a decade'; back.hidden = true; grid.innerHTML = '';
+      for (let d = Math.floor(maxYear / 10) * 10; d >= Math.floor(minYear / 10) * 10; d -= 10) {
+        const b = document.createElement('button'); b.type = 'button'; b.textContent = d + 's';
+        b.addEventListener('click', () => showYears(d)); grid.appendChild(b);
+      }
+      grid.querySelector('button').focus();
     }
-    [mSel, dSel, ySel].forEach(el => el.addEventListener('change', sync));
+    function showYears(d) {
+      title.textContent = d + 's'; back.hidden = false; grid.innerHTML = '';
+      for (let y = Math.min(d + 9, maxYear); y >= Math.max(d, minYear); y--) {
+        const b = document.createElement('button'); b.type = 'button'; b.textContent = y;
+        b.addEventListener('click', () => pickYear(y)); grid.appendChild(b);
+      }
+      grid.querySelector('button').focus();
+    }
+    function pickYear(y) {
+      // Keep a month and day already chosen; otherwise start the calendar on January of that year
+      const cur = /^\d{4}-(\d{2})-(\d{2})$/.exec(dob.value);
+      let m = cur ? cur[1] : '01', d = cur ? cur[2] : '01';
+      if (cur && +d > new Date(y, +m, 0).getDate()) d = String(new Date(y, +m, 0).getDate()).padStart(2, '0');
+      dob.value = y + '-' + m + '-' + d;
+      jumpValue = cur ? '' : dob.value; jumpConfirmed = false;
+      open(false); setKind();
+      if (jumpValue) ageNote.textContent = 'Showing ' + y + '. Now pick the month and day in the calendar.';
+      try { dob.showPicker(); } catch (e) { dob.focus(); }
+    }
+    btn.addEventListener('click', () => open(pop.hidden));
+    back.addEventListener('click', showDecades);
+    pop.addEventListener('click', e => e.stopPropagation());
+    document.addEventListener('click', e => { if (!pop.hidden && e.target !== btn) open(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !pop.hidden) { open(false); btn.focus(); } });
   })();
+  f('athleteDob').addEventListener('change', () => { if (f('athleteDob').value !== jumpValue) jumpValue = ''; setKind(); });
+  f('athleteDob').addEventListener('input', () => { if (f('athleteDob').value !== jumpValue) jumpValue = ''; setKind(); });
   setKind();
 
   const norm = s => String(s || '').trim().replace(/\s+/g, ' ').toLowerCase();
@@ -402,14 +442,18 @@ const WAIVER_VERSION = "2026-10";
   function validate() {
     clearErrors(); document.getElementById('form-error').hidden = true;
     const dob = f('athleteDob').value;
-    if (!f('athleteDob').value) return fail("Please choose the athlete's full date of birth.", f(!f('dobMonth').value ? 'dobMonth' : !f('dobDay').value ? 'dobDay' : 'dobYear'));
+    if (jumpValue && f('athleteDob').value === jumpValue && !jumpConfirmed) {
+      jumpConfirmed = true;
+      const nice = new Date(jumpValue + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      return fail('Is ' + nice + " the athlete's birth date? If not, pick the month and day in the calendar. If it is, select Sign waiver again.", f('athleteDob'));
+    }
     const required = ['athleteName', 'athleteDob', 'signerName', 'relationship', 'email', 'phone', 'emergencyName', 'emergencyPhone', 'medical', 'signature'];
     for (const n of required) {
       const el = f(n);
       if (el.required && !String(el.value).trim()) return fail('Please fill in every required field.', el);
     }
     const age = ageOn(dob, new Date());
-    if (!(age >= 4 && age <= 99)) return fail("Please check the athlete's date of birth.", f('dobYear'));
+    if (!(age >= 4 && age <= 99)) return fail("Please check the athlete's date of birth.", f('athleteDob'));
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f('email').value.trim())) return fail('Please enter a valid email address.', f('email'));
     tidyPhone(f('phone')); tidyPhone(f('emergencyPhone'));
     if (phoneDigits(f('phone').value).length !== 10) return fail('Please enter a 10-digit phone number.', f('phone'));
@@ -476,7 +520,7 @@ const WAIVER_VERSION = "2026-10";
 
   document.getElementById('another').addEventListener('click', () => {
     // Keep the parent's contact details, clear the athlete-specific ones
-    ['athleteName', 'athleteDob', 'dobMonth', 'dobDay', 'dobYear', 'medical', 'school', 'gradYear', 'goals', 'experience', 'signature'].forEach(n => { f(n).value = ''; });
+    ['athleteName', 'athleteDob', 'medical', 'school', 'gradYear', 'goals', 'experience', 'signature'].forEach(n => { f(n).value = ''; });
     form.querySelectorAll('input[name=positions], input[name=mediaFilm], input[name=mediaPost], input[name=mediaName], input[name=agree]').forEach(i => { i.checked = false; });
     form.querySelectorAll('.na-btn').forEach(b => { b.setAttribute('aria-pressed', 'false'); f(b.dataset.na).readOnly = false; });
     setKind();
