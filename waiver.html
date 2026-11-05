@@ -70,6 +70,7 @@ footer { padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px)) !importan
 .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
 @media (max-width: 640px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
 [hidden] { display: none !important; }
+.dob { display: grid; grid-template-columns: 1.2fr 0.9fr 1.1fr; gap: 8px; }
 .field { display: grid; gap: 6px; min-width: 0; align-content: start; }
 .lbl-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .na-btn { font: inherit; font-size: var(--t-small); font-weight: 600; color: var(--gray); background: transparent; border: 1px solid #4A5864; border-radius: 999px; padding: 2px 12px; cursor: pointer; }
@@ -171,7 +172,14 @@ footer a { color: var(--gray); }
         <div class="card-h"><span class="n">Step 1</span><h2 id="s1">The athlete</h2></div>
         <div class="grid2">
           <label class="field"><span>Athlete's full name</span><input type="text" name="athleteName" autocomplete="off" required></label>
-          <label class="field"><span>Athlete's date of birth</span><input type="date" name="athleteDob" required><small id="age-note">This decides who signs.</small></label>
+          <fieldset class="field"><legend>Athlete's date of birth</legend>
+            <div class="dob">
+              <select name="dobMonth" aria-label="Birth month" required><option value="">Month</option><option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option><option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option><option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option><option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option></select>
+              <select name="dobDay" aria-label="Birth day" required><option value="">Day</option></select>
+              <select name="dobYear" aria-label="Birth year" required><option value="">Year</option></select>
+            </div>
+            <input type="hidden" name="athleteDob">
+            <small id="age-note">This decides who signs.</small></fieldset>
         </div>
       </section>
 
@@ -360,8 +368,21 @@ const WAIVER_VERSION = "2026-10";
     if (b.value === 'N/A') posBoxes.forEach(o => { if (o !== b) o.checked = false; });
     else posBoxes.forEach(o => { if (o.value === 'N/A') o.checked = false; });
   }));
-  f('athleteDob').addEventListener('change', setKind);
-  f('athleteDob').addEventListener('input', setKind);
+  // Date of birth: Month / Day / Year dropdowns (newest years first) feed the hidden athleteDob field
+  (function () {
+    const yr = new Date().getFullYear(), ySel = f('dobYear'), dSel = f('dobDay'), mSel = f('dobMonth');
+    for (let y = yr - 4; y >= yr - 99; y--) ySel.add(new Option(String(y), String(y)));
+    for (let d = 1; d <= 31; d++) dSel.add(new Option(String(d), String(d).padStart(2, '0')));
+    function sync() {
+      const y = ySel.value, m = mSel.value;
+      const max = (y && m) ? new Date(+y, +m, 0).getDate() : 31;
+      [...dSel.options].forEach(o => { if (o.value) o.disabled = +o.value > max; });
+      if (dSel.value && +dSel.value > max) dSel.value = '';
+      f('athleteDob').value = (y && m && dSel.value) ? y + '-' + m + '-' + dSel.value : '';
+      setKind();
+    }
+    [mSel, dSel, ySel].forEach(el => el.addEventListener('change', sync));
+  })();
   setKind();
 
   const norm = s => String(s || '').trim().replace(/\s+/g, ' ').toLowerCase();
@@ -381,13 +402,14 @@ const WAIVER_VERSION = "2026-10";
   function validate() {
     clearErrors(); document.getElementById('form-error').hidden = true;
     const dob = f('athleteDob').value;
+    if (!f('athleteDob').value) return fail("Please choose the athlete's full date of birth.", f(!f('dobMonth').value ? 'dobMonth' : !f('dobDay').value ? 'dobDay' : 'dobYear'));
     const required = ['athleteName', 'athleteDob', 'signerName', 'relationship', 'email', 'phone', 'emergencyName', 'emergencyPhone', 'medical', 'signature'];
     for (const n of required) {
       const el = f(n);
       if (el.required && !String(el.value).trim()) return fail('Please fill in every required field.', el);
     }
     const age = ageOn(dob, new Date());
-    if (!(age >= 4 && age <= 99)) return fail("Please check the athlete's date of birth.", f('athleteDob'));
+    if (!(age >= 4 && age <= 99)) return fail("Please check the athlete's date of birth.", f('dobYear'));
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f('email').value.trim())) return fail('Please enter a valid email address.', f('email'));
     tidyPhone(f('phone')); tidyPhone(f('emergencyPhone'));
     if (phoneDigits(f('phone').value).length !== 10) return fail('Please enter a 10-digit phone number.', f('phone'));
@@ -454,7 +476,7 @@ const WAIVER_VERSION = "2026-10";
 
   document.getElementById('another').addEventListener('click', () => {
     // Keep the parent's contact details, clear the athlete-specific ones
-    ['athleteName', 'athleteDob', 'medical', 'school', 'gradYear', 'goals', 'experience', 'signature'].forEach(n => { f(n).value = ''; });
+    ['athleteName', 'athleteDob', 'dobMonth', 'dobDay', 'dobYear', 'medical', 'school', 'gradYear', 'goals', 'experience', 'signature'].forEach(n => { f(n).value = ''; });
     form.querySelectorAll('input[name=positions], input[name=mediaFilm], input[name=mediaPost], input[name=mediaName], input[name=agree]').forEach(i => { i.checked = false; });
     form.querySelectorAll('.na-btn').forEach(b => { b.setAttribute('aria-pressed', 'false'); f(b.dataset.na).readOnly = false; });
     setKind();
