@@ -69,8 +69,13 @@ footer { padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px)) !importan
 
 .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
 @media (max-width: 640px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+[hidden] { display: none !important; }
 .field { display: grid; gap: 6px; min-width: 0; align-content: start; }
-.field > span, .field legend { font-size: var(--t-small); font-weight: 600; color: var(--white); }
+.lbl-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.na-btn { font: inherit; font-size: var(--t-small); font-weight: 600; color: var(--gray); background: transparent; border: 1px solid #4A5864; border-radius: 999px; padding: 2px 12px; cursor: pointer; }
+.na-btn[aria-pressed="true"] { background: var(--speed); border-color: var(--speed-lite); color: var(--white); }
+input[readonly] { opacity: 0.75; }
+.field > span, .field .lbl-row > span, .field legend { font-size: var(--t-small); font-weight: 600; color: var(--white); }
 .field small { color: var(--gray); font-size: var(--t-small); }
 .opt { color: var(--gray); font-weight: 400; }
 input[type=text], input[type=email], input[type=tel], input[type=date], select, textarea {
@@ -189,7 +194,7 @@ footer a { color: var(--gray); }
         <div class="grid2">
           <label class="field"><span>Your relationship to the athlete</span>
             <select name="relationship" required><option value="">Choose one</option><option>Parent</option><option>Legal guardian</option><option value="Myself">Myself (I'm the athlete, 18 or older)</option></select></label>
-          <label class="field" id="guardian-fields"><span>Parent or guardian's full name</span><input type="text" name="signerName" autocomplete="name"></label>
+          <label class="field" id="guardian-fields"><span id="signer-label">Parent or guardian's full name</span><input type="text" name="signerName" autocomplete="name"></label>
         </div>
         <div class="grid2">
           <label class="field"><span id="email-label">Email</span><input type="email" name="email" autocomplete="email" required><small>Please use the same email that you'll book with. Your signed copy is sent here.</small></label>
@@ -206,8 +211,8 @@ footer a { color: var(--gray); }
         <div class="card-h"><span class="n">Step 4</span><h2 id="s4">About the athlete <span class="opt">(optional)</span></h2></div>
         <p class="card-sub">Helps me plan the first session.</p>
         <div class="grid2">
-          <label class="field"><span>School or program</span><input type="text" name="school"></label>
-          <label class="field"><span>Graduation year</span><input type="text" name="gradYear" inputmode="numeric" maxlength="4" placeholder="2029"></label>
+          <div class="field"><div class="lbl-row"><span>School or program</span><button type="button" class="na-btn" data-na="school" aria-pressed="false">N/A</button></div><input type="text" name="school" aria-label="School or program"></div>
+          <div class="field"><div class="lbl-row"><span>Graduation year</span><button type="button" class="na-btn" data-na="gradYear" aria-pressed="false">N/A</button></div><input type="text" name="gradYear" inputmode="numeric" maxlength="4" placeholder="2029" aria-label="Graduation year"></div>
         </div>
         <fieldset class="field"><legend>Position(s)</legend>
           <div class="chips">
@@ -217,11 +222,12 @@ footer a { color: var(--gray); }
             <label class="chip"><input type="checkbox" name="positions" value="DB"><span>DB</span></label>
             <label class="chip"><input type="checkbox" name="positions" value="LB"><span>LB</span></label>
             <label class="chip"><input type="checkbox" name="positions" value="K"><span>K</span></label>
+            <label class="chip"><input type="checkbox" name="positions" value="N/A"><span>N/A</span></label>
           </div>
         </fieldset>
         <div class="grid2">
-          <label class="field"><span>Experience</span><select name="experience"><option value="">Choose one</option><option>First year</option><option>Youth league</option><option>Middle school</option><option>JV</option><option>Varsity</option><option>College</option></select></label>
-          <label class="field"><span>Top goals for training</span><input type="text" name="goals" placeholder="Releases vs. press, top-end speed"></label>
+          <label class="field"><span>Experience</span><select name="experience"><option value="">Choose one</option><option>First year</option><option>Youth league</option><option>Middle school</option><option>JV</option><option>Varsity</option><option>College</option><option>N/A</option></select></label>
+          <div class="field"><div class="lbl-row"><span>Top goals for training</span><button type="button" class="na-btn" data-na="goals" aria-pressed="false">N/A</button></div><input type="text" name="goals" placeholder="Releases vs. press, top-end speed" aria-label="Top goals for training"></div>
         </div>
       </section>
 
@@ -313,8 +319,16 @@ const WAIVER_VERSION = "2026-10";
     else if (rel.value === 'Myself') { rel.value = ''; }
     myself.disabled = !(valid && kind === 'adult');
     [...rel.options].forEach(o => { if (o.value && o.value !== 'Myself') o.disabled = valid && kind === 'adult'; });
-    guardian.hidden = kind === 'adult';
-    f('signerName').required = kind === 'minor';
+    const sn = f('signerName');
+    if (kind === 'adult') {
+      document.getElementById('signer-label').textContent = 'Your full name (athlete)';
+      sn.value = f('athleteName').value; sn.readOnly = true; sn.dataset.auto = '1';
+    } else {
+      document.getElementById('signer-label').textContent = "Parent or guardian's full name";
+      if (sn.dataset.auto) { sn.value = ''; delete sn.dataset.auto; }
+      sn.readOnly = false;
+    }
+    sn.required = true;
     document.getElementById('email-label').textContent = kind === 'minor' ? "Parent or guardian's email" : 'Your email';
     document.getElementById('phone-label').textContent = kind === 'minor' ? "Parent or guardian's phone" : 'Your phone';
     document.getElementById('sig-help').textContent = kind === 'minor' ? "Must match the parent or guardian's name above." : "Must match the athlete's name above.";
@@ -332,6 +346,20 @@ const WAIVER_VERSION = "2026-10";
       who.innerHTML = '<b>You sign for yourself.</b> The athlete is 18 or older.';
     }
   }
+  f('athleteName').addEventListener('input', () => { if (kind === 'adult') f('signerName').value = f('athleteName').value; });
+  // N/A buttons on optional fields
+  form.querySelectorAll('.na-btn').forEach(btn => btn.addEventListener('click', () => {
+    const el = f(btn.dataset.na), on = btn.getAttribute('aria-pressed') !== 'true';
+    btn.setAttribute('aria-pressed', String(on));
+    el.value = on ? 'N/A' : ''; el.readOnly = on;
+    if (!on) el.focus();
+  }));
+  const posBoxes = [...form.querySelectorAll('input[name=positions]')];
+  posBoxes.forEach(b => b.addEventListener('change', () => {
+    if (!b.checked) return;
+    if (b.value === 'N/A') posBoxes.forEach(o => { if (o !== b) o.checked = false; });
+    else posBoxes.forEach(o => { if (o.value === 'N/A') o.checked = false; });
+  }));
   f('athleteDob').addEventListener('change', setKind);
   f('athleteDob').addEventListener('input', setKind);
   setKind();
@@ -428,6 +456,7 @@ const WAIVER_VERSION = "2026-10";
     // Keep the parent's contact details, clear the athlete-specific ones
     ['athleteName', 'athleteDob', 'medical', 'school', 'gradYear', 'goals', 'experience', 'signature'].forEach(n => { f(n).value = ''; });
     form.querySelectorAll('input[name=positions], input[name=mediaFilm], input[name=mediaPost], input[name=mediaName], input[name=agree]').forEach(i => { i.checked = false; });
+    form.querySelectorAll('.na-btn').forEach(b => { b.setAttribute('aria-pressed', 'false'); f(b.dataset.na).readOnly = false; });
     setKind();
     const btn = document.getElementById('submit-btn'); btn.disabled = false; btn.textContent = 'Sign waiver';
     document.getElementById('done-view').hidden = true; document.getElementById('form-view').hidden = false;
