@@ -78,6 +78,10 @@ footer { padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px)) !importan
 .yr-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; font-size: var(--t-small); font-weight: 600; color: var(--white); }
 .yr-back { font: inherit; font-size: var(--t-small); color: var(--speed-lite); background: none; border: 0; padding: 0; cursor: pointer; }
 .yr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.yr-grid.days { grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.yr-grid.days button { padding: 8px 0; }
+.yr-grid .dow { font-size: 12px; color: var(--gray); text-align: center; padding: 2px 0; }
+#dob-input::-webkit-calendar-picker-indicator { display: none; }
 .yr-grid button { font: inherit; font-size: var(--t-small); font-weight: 600; color: var(--white); background: var(--raise); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 4px; cursor: pointer; }
 .yr-grid button:hover, .yr-grid button:focus-visible { background: var(--speed); border-color: var(--speed-lite); }
 .field { display: grid; gap: 6px; min-width: 0; align-content: start; }
@@ -185,9 +189,9 @@ footer a { color: var(--gray); }
             <div class="lbl-row"><label for="dob-input" class="lbl">Athlete's date of birth</label></div>
             <div class="dob-row">
               <input type="date" name="athleteDob" id="dob-input" required>
-              <button type="button" class="yr-btn" id="yr-btn" aria-haspopup="true" aria-expanded="false">Pick year</button>
-              <div class="yr-pop" id="yr-pop" hidden role="dialog" aria-label="Choose a birth year">
-                <div class="yr-head"><button type="button" class="yr-back" id="yr-back" hidden>&larr; Decades</button><span id="yr-title">Choose a decade</span></div>
+              <button type="button" class="yr-btn" id="yr-btn" aria-haspopup="true" aria-expanded="false">Pick date</button>
+              <div class="yr-pop" id="yr-pop" hidden role="dialog" aria-label="Choose a birth date">
+                <div class="yr-head"><button type="button" class="yr-back" id="yr-back" hidden>&larr; Back</button><span id="yr-title">Choose a decade</span></div>
                 <div class="yr-grid" id="yr-grid"></div>
               </div>
             </div>
@@ -381,42 +385,46 @@ const WAIVER_VERSION = "2026-10";
     if (b.value === 'N/A') posBoxes.forEach(o => { if (o !== b) o.checked = false; });
     else posBoxes.forEach(o => { if (o.value === 'N/A') o.checked = false; });
   }));
-  // "Pick year": choose a decade, then a year; the calendar then opens on that year
+  // "Pick date": decade -> year -> month -> day, all in one small menu (no scrolling lists)
   let jumpValue = '', jumpConfirmed = false;
   (function () {
     const dob = f('athleteDob'), btn = document.getElementById('yr-btn'), pop = document.getElementById('yr-pop');
     const grid = document.getElementById('yr-grid'), title = document.getElementById('yr-title'), back = document.getElementById('yr-back');
     const maxYear = new Date().getFullYear() - 4, minYear = maxYear - 95;
+    const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const FULL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let backTo = null;
+    function cell(text, onClick) { const b = document.createElement('button'); b.type = 'button'; b.textContent = text; b.addEventListener('click', onClick); grid.appendChild(b); return b; }
+    function screen(t, prev, days) { title.textContent = t; backTo = prev; back.hidden = !prev; grid.innerHTML = ''; grid.classList.toggle('days', !!days); }
     function open(v) { pop.hidden = !v; btn.setAttribute('aria-expanded', String(v)); if (v) showDecades(); }
     function showDecades() {
-      title.textContent = 'Choose a decade'; back.hidden = true; grid.innerHTML = '';
-      for (let d = Math.floor(maxYear / 10) * 10; d >= Math.floor(minYear / 10) * 10; d -= 10) {
-        const b = document.createElement('button'); b.type = 'button'; b.textContent = d + 's';
-        b.addEventListener('click', () => showYears(d)); grid.appendChild(b);
-      }
+      screen('Choose a decade', null);
+      for (let d = Math.floor(maxYear / 10) * 10; d >= Math.floor(minYear / 10) * 10; d -= 10) cell(d + 's', () => showYears(d));
       grid.querySelector('button').focus();
     }
     function showYears(d) {
-      title.textContent = d + 's'; back.hidden = false; grid.innerHTML = '';
-      for (let y = Math.min(d + 9, maxYear); y >= Math.max(d, minYear); y--) {
-        const b = document.createElement('button'); b.type = 'button'; b.textContent = y;
-        b.addEventListener('click', () => pickYear(y)); grid.appendChild(b);
-      }
+      screen(d + 's', showDecades);
+      for (let y = Math.min(d + 9, maxYear); y >= Math.max(d, minYear); y--) cell(y, () => showMonths(y, d));
       grid.querySelector('button').focus();
     }
-    function pickYear(y) {
-      // Keep a month and day already chosen; otherwise start the calendar on January of that year
-      const cur = /^\d{4}-(\d{2})-(\d{2})$/.exec(dob.value);
-      let m = cur ? cur[1] : '01', d = cur ? cur[2] : '01';
-      if (cur && +d > new Date(y, +m, 0).getDate()) d = String(new Date(y, +m, 0).getDate()).padStart(2, '0');
-      dob.value = y + '-' + m + '-' + d;
-      jumpValue = cur ? '' : dob.value; jumpConfirmed = false;
-      open(false); setKind();
-      if (jumpValue) ageNote.textContent = 'Showing ' + y + '. Now pick the month and day in the calendar.';
-      try { dob.showPicker(); } catch (e) { dob.focus(); }
+    function showMonths(y, d) {
+      screen(String(y), () => showYears(d));
+      MONTHS.forEach((m, i) => cell(m, () => showDays(y, i, d)));
+      grid.querySelector('button').focus();
+    }
+    function showDays(y, mi, d) {
+      screen(FULL[mi] + ' ' + y, () => showMonths(y, d), true);
+      ['S', 'M', 'T', 'W', 'T', 'F', 'S'].forEach(x => { const s = document.createElement('span'); s.className = 'dow'; s.textContent = x; grid.appendChild(s); });
+      for (let i = 0; i < new Date(y, mi, 1).getDay(); i++) grid.appendChild(document.createElement('span'));
+      const n = new Date(y, mi + 1, 0).getDate();
+      for (let day = 1; day <= n; day++) cell(day, () => {
+        dob.value = y + '-' + String(mi + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+        open(false); setKind(); dob.focus();
+      });
+      grid.querySelector('button').focus();
     }
     btn.addEventListener('click', () => open(pop.hidden));
-    back.addEventListener('click', showDecades);
+    back.addEventListener('click', () => backTo && backTo());
     pop.addEventListener('click', e => e.stopPropagation());
     document.addEventListener('click', e => { if (!pop.hidden && e.target !== btn) open(false); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && !pop.hidden) { open(false); btn.focus(); } });
@@ -442,11 +450,6 @@ const WAIVER_VERSION = "2026-10";
   function validate() {
     clearErrors(); document.getElementById('form-error').hidden = true;
     const dob = f('athleteDob').value;
-    if (jumpValue && f('athleteDob').value === jumpValue && !jumpConfirmed) {
-      jumpConfirmed = true;
-      const nice = new Date(jumpValue + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-      return fail('Is ' + nice + " the athlete's birth date? If not, pick the month and day in the calendar. If it is, select Sign waiver again.", f('athleteDob'));
-    }
     const required = ['athleteName', 'athleteDob', 'signerName', 'relationship', 'email', 'phone', 'emergencyName', 'emergencyPhone', 'medical', 'signature'];
     for (const n of required) {
       const el = f(n);
